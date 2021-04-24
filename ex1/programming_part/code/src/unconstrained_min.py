@@ -37,7 +37,8 @@ def gradient_descent(f, x0, step_size, obj_tol, param_tol, max_iter):
 		df_prev = df_next
 		x_vals.append(x_prev)
 		y_vals.append(f_prev)
-	return x_next, success, x_vals ,y_vals
+	print(f'Function {f.__name__} final success status: {"Success" if success else "Fail"}')
+	return x_next, success, x_vals
 
 
 	# Todo: call the iteration reporting function in utils.py (send to it: the iteration number 𝑖, the current location 𝑥𝑖, the current objective value 𝑓(𝑥𝑖), the current step length taken ‖𝑥𝑖−𝑥𝑖−1‖ and the current change in objective function value |𝑓(𝑥𝑖)−𝑓(𝑥𝑖−1)|.)
