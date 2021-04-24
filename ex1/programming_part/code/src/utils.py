@@ -6,12 +6,9 @@ import os
 EPSILON = 0.005
 PARENT_DIR = os.path.dirname(os.getcwd())
 
-def return_function_val_only(f, arg):
-    return f(arg)[0]
-
 def plot_contours_and_paths(f, x):
     c0 = [coordinate[0] for coordinate in x]
-    c1 = [coordinate[0] for coordinate in x]
+    c1 = [coordinate[1] for coordinate in x]
 
 
     # Following code based on https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html
