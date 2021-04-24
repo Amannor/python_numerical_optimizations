@@ -39,7 +39,7 @@ class TestStringMethods(unittest.TestCase):
         for quad_example in [examples.f_b_i, examples.f_b_ii, examples.f_b_iii]:
             print(f'Testing quad function: {quad_example.__name__}')
             grad_desc_res = src.unconstrained_min.gradient_descent(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter)
-            src.utils.plot_contours_and_paths(grad_desc_res[2],grad_desc_res[3])
+            src.utils.plot_contours_and_paths(quad_example, grad_desc_res[2])
             self.assertTrue(grad_desc_res[1])
 
     def test_rosenbrock_min(self):
@@ -51,6 +51,7 @@ class TestStringMethods(unittest.TestCase):
         print(f'Testing function: Rosenbrock')
         grad_desc_res = src.unconstrained_min.gradient_descent(examples.f_c_rosebrock, x0, step_size, obj_tolerance,
                                                                step_tolerance, max_iter)
+        src.utils.plot_contours_and_paths(examples.f_c_rosebrock, grad_desc_res[2])
         self.assertTrue(grad_desc_res[1])
 
     def test_lin_min(self):
@@ -62,6 +63,7 @@ class TestStringMethods(unittest.TestCase):
         print(f'Testing function: linear')
         grad_desc_res = src.unconstrained_min.gradient_descent(examples.f_d_lin, x0, step_size, obj_tolerance,
                                                                step_tolerance, max_iter)
+        src.utils.plot_contours_and_paths(examples.f_d_lin, grad_desc_res[2])
         self.assertFalse(grad_desc_res[1])
 
 
