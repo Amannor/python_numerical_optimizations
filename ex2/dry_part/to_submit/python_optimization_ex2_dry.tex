@@ -1,0 +1,149 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{listings}
+
+\begin{document}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\section*{Numerical Optimization with Python -  Ex. 2: dry part}
+Alon\\ \\
+
+The code I used to create the drawings can be found at:\\
+
+\begin{lstlisting}[breaklines]
+https://github.com/Amannor/python_numerical_optimizations/blob/main/ex2/dry_part/contour_plotter.py
+\end{lstlisting}
+
+\underline{\textbf{Question 1}}:\\
+
+\textbf{1.1} \\
+See figure below. \\
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\linewidth]{q1_1.PNG}
+\caption{Q1.1: contour lines of $\lvert x\rvert +\lvert y \rvert $}
+\end{figure}
+
+\textbf{1.2} \\
+See figure below. \\
+The constraint $(x-1)^2+(y-1)^2 \leq 1$ yields a circle of radius 1 with a center in (1,1). Adding to it the constraint $y \leq 1$ makes the said circle a (lower) half circle.\\
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\linewidth]{q1_2.PNG}
+\caption{Q1.2: contour lines and the the constraints (feasible region is the black half circle)}
+\end{figure}
+
+\textbf{1.3} \\
+See figure below. \\
+
+Since the minimum of the function  $\lvert x\rvert +\lvert y \rvert $ is at the origin (0,0) and it's monotonically increasing as the (absolute) values of x and y grow, then the minimum in the feasible region is achieved in the closest point to the origin. This point is $(1-\frac{1}{\sqrt{2}}, 1-\frac{1}{\sqrt{2}})$ and is marked in the figure below.\\
+
+The value of the function at this point is $\lvert 1-\frac{1}{\sqrt{2}} \rvert + \lvert1-\frac{1}{\sqrt{2}}\rvert = 2 - \sqrt{2}$\\
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\linewidth]{q1_3.PNG}
+\caption{Q1.3: The minimum point in the feasible region is marked in blue}
+\end{figure}
+
+\textbf{1.4} \\
+The constraints are: \\
+$f_1 (x,y) = (x-1)^2+(y-1)^2-1 \leq 0$ \\
+$f_2 (x,y) = y-1 \leq 0$ \\
+
+We recall that by definition, at a feasible point (x,y), an inequality constraint $ i \in \mathcal{I}$ is said to be active if $f_i (x,y) = 0$ and inactive if $f_i (x,y) < 0$ (lecture 4, slide 7).\\
+Hence we'll just assign the value of the minimum point we got above: \\
+\begin{multline*}
+f_1(1-\frac{1}{\sqrt{2}}, 1-\frac{1}{\sqrt{2}}) = 
+(1-\frac{1}{\sqrt{2}}-1)^2 + (1-\frac{1}{\sqrt{2}}-1)^2 -1 = 
+\frac{1}{2}+\frac{1}{2}-1 = 0 \\
+\rightarrow \boxed{f_1 \; is \; active}
+\end{multline*} \\
+
+\begin{multline*}
+f_2(1-\frac{1}{\sqrt{2}}, 1-\frac{1}{\sqrt{2}}) = 
+1-\frac{1}{\sqrt{2}}-1 = -\frac{1}{\sqrt{2}} < 0 \\
+\rightarrow \boxed{f_2 \; is \; not\; active}
+\end{multline*} \\
+
+\textbf{1.5} \\
+See figure below. \\
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\linewidth]{q1_5.PNG}
+\caption{Q1.5: Gradients at minimum point: black is of the objective function and green is of the first constraint $f_1 = (x-1)^2+(y-1)^2-1 \leq 0$}
+\end{figure}
+
+\clearpage\underline{\textbf{Question 2}}:\\
+\textbf{2.1} \\
+The graph of the function $f_0(x,y) = 0.5x-y$ is a plane. For the feasible region and the contours of the objective function please see figure below.\\
+
+Note that for some reason the bottom line of the polygon of the feasible region didn't come out parallel to the x axis as it was suppose to. I'm not sure as to why is that. I went over my code several times and I think it might be related to overflow of values that can't be exactly stored in binary form (e.g. $\frac{1}{3}$).\\
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\linewidth]{q2_1.PNG}
+\caption{Q2.1: Contours lines of the objective function $0.5x-y$ and the feasible region (in black) given by the constraints}
+\end{figure}
+
+\textbf{2.2} \\
+The minimum value is $x^* = (1,2)$ and the optimal value is $p^* = f_0(1,2) = 0.5 \cdot 1 -2 = -1.5$. \\
+See figure below.\\
+
+*I used the following link to find the minimum value: \\
+\begin{lstlisting}[breaklines]
+https://www.wolframalpha.com/input/?i=min+0.5x-y%2C+-x%2By-1%3C%3D0%2C+-x%2F3%2By-5%2F3%3C%3D0%2C+x-4%3C%3D0%2C+y-3%3C%3D0%2C+x%3E%3D0%2C+y%3E%3D0
+\end{lstlisting} 
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\linewidth]{q2_2.PNG}
+\caption{Q2.2: minimum point (1,2) in feasible region is marked in blue}
+\end{figure}
+
+\textbf{2.3} \\
+We'll go over each constraint function and calculate.\\
+Of course I wrote (arranged the variables in) each function s.t. the constraint will be $f_i \leq 0 \; (i=1,...,6)$\\
+
+\begin{multline*}
+\underline{f_1(x,y) = -x+y-1} \\
+f_1(1,2) = -1+2-1 = 0 \rightarrow \boxed{f_1 \; is \; active}
+\end{multline*} \\
+
+\begin{multline*}
+\underline{f_2(x,y) = -\frac{1}{3}x+y-\frac{5}{3}} \\
+f_2(1,2) = -\frac{1}{3}+2-\frac{5}{3} = 0 \rightarrow \boxed{f_2 \; is \; active}
+\end{multline*} \\
+
+\begin{multline*}
+\underline{f_3(x,y) = x-4} \\
+f_3(1,2) = 1-4<0 \rightarrow \boxed{f_3 \; is \; not \; active}
+\end{multline*} \\
+
+\begin{multline*}
+\underline{f_4(x,y) = y-3} \\
+f_4(1,2) = 2-3<0 \rightarrow \boxed{f_4 \; is \; not \; active}
+\end{multline*} \\
+
+\begin{multline*}
+\underline{f_5(x,y) = -x} \\
+f_5(1,2) = -1<0 \rightarrow \boxed{f_5 \; is \; not \; active}
+\end{multline*} \\
+
+\begin{multline*}
+\underline{f_6(x,y) = -y} \\
+f_6(1,2) = -2<0 \rightarrow \boxed{f_6 \; is \; not \; active}
+\end{multline*} \\
+
+\textbf{2.4} \\
+The 2 active constraints are $f_1, f_2$. I've used the following link to "slide" the value of $u$ and thus saw that as $u$ decreases in value, the "next" constraint to become active (while $f_1$ becomes inactive) is $f_5$. Hence we can calculate $u_{min}$: \\
+
+As $u$ increases in value, the constraint $f_4$ becomes active
+
+\begin{lstlisting}[breaklines]
+https://www.desmos.com/calculator/yf5btxc5bz
+\end{lstlisting} 
+
+$u_{min} = -\frac{2}{3}, \; u_{max} = \frac{2}{3}$
+
+
+\end{document}\\
