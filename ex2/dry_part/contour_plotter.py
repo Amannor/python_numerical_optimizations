@@ -61,9 +61,16 @@ ax.plot(min_x, min_y, 'bo')
 
 # x1 = -20     # position of the gradient
 # y1 = 10
-dz1_dx = 1  # value of the gradient at that position
-dz1_dy = 1
-arrow = FancyArrowPatch((min_x, min_y), (min_x+dz1_dx, min_y+dz1_dy),    
+# Directiob of gradients from: https://www.geogebra.org/m/sWsGNs86
+dz1_dx_for_obj_func = 1  # value of the gradient at that position
+dz1_dy_for_obj_func = 1
+arrow = FancyArrowPatch((min_x, min_y), (min_x+dz1_dx_for_obj_func, min_y+dz1_dy_for_obj_func),    
                         arrowstyle='simple', color='k', mutation_scale=10)
+ax.add_patch(arrow)
+
+dz1_dx_for_circle_constraint = min_x+1  # value of the gradient at that position
+dz1_dy_for_circle_constraint = min_y+1
+arrow = FancyArrowPatch((min_x, min_y), (min_x-dz1_dx_for_circle_constraint, min_y-dz1_dy_for_circle_constraint),    
+                        arrowstyle='simple', color='g', mutation_scale=10)
 ax.add_patch(arrow)
 save_fig('q1_5.png')
