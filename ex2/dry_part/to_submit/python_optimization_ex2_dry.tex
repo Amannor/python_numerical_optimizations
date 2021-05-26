@@ -18,7 +18,7 @@ https://github.com/Amannor/python_numerical_optimizations/tree/main/ex2/dry_part
 
 \underline{\textbf{Question 1}}:\\
 
-\textbf{1.1} \\
+\underline{\textbf{1.1}} \\
 See figure below. \\
 
 \begin{figure}[h!]
@@ -26,7 +26,7 @@ See figure below. \\
 \caption{Q1.1: contour lines of $\lvert x\rvert +\lvert y \rvert$}
 \end{figure}
 
-\textbf{1.2} \\
+\underline{\textbf{1.2}} \\
 I wasn't able to draw everything in a single figure, so see 2 figure below:\\
 - The feasible region on top of the contour of the objective function. \\
 - The contours of the constraints (without the objective function). \\
@@ -49,7 +49,7 @@ https://www.wolframalpha.com/input/?i=min+%7Cx%7C+%2B%7Cy%7C%2C+%28x-1%29%5E2+%2
 \caption{Q1.2: Contour lines of the constraints functions}
 \end{figure}
 
-\textbf{1.3} \\
+\underline{\textbf{1.3}} \\
 See figure below. \\
 
 Since the minimum of the function  $\lvert x\rvert +\lvert y \rvert $ is at the origin (0,0) and it's monotonically increasing as the (absolute) values of x and y grow, then the minimum in the feasible region is achieved in the closest point to the origin. This point is $(1-\frac{1}{\sqrt{2}}, 1-\frac{1}{\sqrt{2}})$ and is marked in the figure below.\\
@@ -61,7 +61,7 @@ The value of the function at this point is $\lvert 1-\frac{1}{\sqrt{2}} \rvert +
 \caption{Q1.3: The minimum point in the feasible region is marked in blue}
 \end{figure}
 
-\textbf{1.4} \\
+\underline{\textbf{1.4}} \\
 The constraints are: \\
 $f_1 (x,y) = (x-1)^2+(y-1)^2-1 \leq 0$ \\
 $f_2 (x,y) = y-1 \leq 0$ \\
@@ -81,7 +81,7 @@ f_2(1-\frac{1}{\sqrt{2}}, 1-\frac{1}{\sqrt{2}}) =
 \rightarrow \boxed{f_2 \; is \; not\; active}
 \end{multline*} \\
 
-\textbf{1.5} \\
+\underline{\textbf{1.5}} \\
 See figure below. \\
 
 \begin{figure}[h!]
@@ -93,7 +93,7 @@ See figure below. \\
 
 
 \clearpage\underline{\textbf{Question 2}}:\\
-\textbf{2.1} \\
+\underline{\textbf{2.1}} \\
 The graph of the function $f_0(x,y) = 0.5x-y$ is a plane.
 
 I wasn't able to draw everything in a single figure, so see 2 figure below:\\
@@ -113,7 +113,7 @@ Note that for some reason the bottom line of the polygon of the feasible region 
 \end{figure}
 
 
-\textbf{2.2} \\
+\underline{\textbf{2.2}} \\
 The minimum value is $x^* = (1,2)$ and the optimal value is $p^* = f_0(1,2) = 0.5 \cdot 1 -2 = -1.5$. \\
 See figure below.\\
 
@@ -127,7 +127,7 @@ https://www.wolframalpha.com/input/?i=min+0.5x-y%2C+-x%2By-1%3C%3D0%2C+-x%2F3%2B
 \caption{Q2.2: minimum point (1,2) in feasible region is marked in blue}
 \end{figure}
 
-\textbf{2.3} \\
+\underline{\textbf{2.3}} \\
 We'll go over each constraint function and calculate.\\
 Of course I wrote (arranged the variables in) each function s.t. the constraint will be $f_i \leq 0 \; (i=1,...,6)$\\
 
@@ -161,13 +161,13 @@ f_5(1,2) = -1<0 \rightarrow \boxed{f_5 \; is \; not \; active}
 f_6(1,2) = -2<0 \rightarrow \boxed{f_6 \; is \; not \; active}
 \end{multline*} \\
 
-\textbf{2.4} \\
+\underline{\textbf{2.4}} \\
 The 2 active constraints are $f_1, f_2$. I've used the following link to "slide" the value of $u$:
 \begin{lstlisting}[breaklines]
 https://www.desmos.com/calculator/yf5btxc5bz
 \end{lstlisting} 
 
-Using it saw that as $u$ decreases in value, the "next" constraint to become active (while $f_1$ becomes inactive) is $f_5$. Hence we can calculate $u_{min}$: \\
+Using it we see that as $u$ decreases in value, the "next" constraint to become active (while $f_1$ becomes inactive) is $f_5$. Hence we can calculate $u_{min}$: \\
 
 $f_5(x,y)=0 \rightarrow -x=0 \rightarrow x=0$\\
 
@@ -190,7 +190,7 @@ $f_2(x,y)=u_{max} \rightarrow -\frac{1}{3}x+y-\frac{5}{3}=u_{max} =
 $u_{min} = -\frac{2}{3}, \; u_{max} = \frac{2}{3}$\\
 
 
-\textbf{2.5} \\
+\underline{\textbf{2.5}} \\
 we can calculate $x^*(u_{min}), x^*(u_{max})$ (for example by using the wolfram alpha link aforementioned and tweaking constraint $f_2$).\\
 We get: \\
 $x^*(u_{min}) = (0,1), x^*(u_{max}) = (2,3)$. In between we get that the minimum point "slides" on the graph of $f_1$, hence: \\
@@ -208,7 +208,7 @@ $-\frac{1}{3}x + y - \frac{5}{3} - u = 0 \rightarrow
 -\frac{1}{3}x + x + 1 - \frac{5}{3} - u = 0 \rightarrow
 \frac{2}{3}x = u+\frac{2}{3} \rightarrow \\
 x = \frac{3}{2}u+1, y = \frac{3}{2}u+2, \; 
-\boxed{x^* = \begin{pmatrix}
+\boxed{x^*(u) = \begin{pmatrix}
            \frac{3}{2}u+1 \\
            \frac{3}{2}u+2 
          \end{pmatrix}}$\\
@@ -220,14 +220,14 @@ $\boxed{p^*(u) = \frac{1}{2} \left( \frac{3}{2}u+1 \right) - \frac{3}{2}u-2 =
 $u \in [-\frac{2}{3}, \frac{2}{3}]$ \\
 
 
-\textbf{2.6} \\
+\underline{\textbf{2.6}} \\
 $p^*(u)$ is differentiable at u=0. The derivative is:\\
 $\frac{\partial p^*(u)}{\partial u} (0) = -\frac{3}{4}$\\
 According to definition of optimal dual variable (lecture 6, slide 48): \\
 $\lambda ^* = -\frac{\partial p^*(u)}{\partial u}(0) = \frac{3}{4}$
 
 
-\textbf{2.7} \\
+\underline{\textbf{2.7}} \\
 See 2 figures below. \\
 
 \begin{figure}[h!]
@@ -237,11 +237,69 @@ See 2 figures below. \\
 
 \begin{figure}[h!]
 \includegraphics[width=0.8\linewidth]{q2_7_u_max.PNG}
-\caption{Q2.7 for $u_{max}=\frac{2}{3}$: maximum point (2,3) is marked in blue}
+\caption{Q2.7 for $u_{max}=\frac{2}{3}$: minimum point (2,3) is marked in blue}
 \end{figure}
 
-\textbf{2.8} \\
+\underline{\textbf{2.8}} \\
 
+We'll divide into sections: \\
+
+\underline{$u<-3$} \\
+
+This case is the simplest since it doesn't have any minimum. One can easily see in the following link the area of the intersection stop to share any area exactly where $u$ passes the threshold of the value of 3: \\
+\begin{lstlisting}[breaklines]
+https://www.desmos.com/calculator/iclrgw00jl
+\end{lstlisting}
+
+
+\underline{$u=-3$} \\
+$x^*(u) = (4,0), \; p^*(u) = 0.5 \cdot 4 -0 = 2$ \\
+
+\begin{multline*}
+f_1(4,0) = -4+0-1 < 0 \rightarrow \boxed{f_1 \; is \; not \; active} \\
+f_2(4,0) = -\frac{4}{3}+0-\frac{5}{3}+3 = 0 \rightarrow \boxed{f_2 \; is  \; active} \\
+f_3(4,0) = 4-4=0 \rightarrow \boxed{f_3 \; is  \; active} \\
+f_4(4,0) = 0-3<0 \rightarrow \boxed{f_4 \; is \; not \; active} \\
+f_5(4,0) = -4<0 \rightarrow \boxed{f_5 \; is \; not \; active} \\
+f_6(4,0) = 0=0 \rightarrow \boxed{f_6 \; is \; active} \\
+\end{multline*} \\
+
+
+
+
+Source:
+\begin{lstlisting}[breaklines]
+https://www.wolframalpha.com/input/?i=min+0.5x-y%2C+-x%2By-1%3C%3D0%2C+-x%2F3%2By-5%2F3%3C%3D-3%2C+x-4%3C%3D0%2C+y-3%3C%3D0%2C+x%3E%3D0%2C+y%3E%3D0
+\end{lstlisting}
+
+
+\underline{$-3<u<u_i$} \\
+
+Working our way "up" (i.e. increasing the value of u, s.t. $u>-3$) we see that the the constraint $f_6$ is active. As we get to the next intersection point, the next constraint to be active is $f_5$. Let's denote the value of u in that point as $u_i$, and calculate it: \\
+$f_5 \; active \rightarrow x=0, \;\; f_6 \; active \rightarrow y=0, \;\; f_2 \; active \rightarrow \boxed{u_i = -\frac{1}{3} \cdot 0 + 0 -\frac{5}{3} = -\frac{5}{3}}$ \\
+In the interval $u \in [-\frac{5}{3},-3]$ we get (from $f_6(x,y)=0$) that y=0  and (from $f_2(x,y)=0$) x is:
+$x = -3 \cdot(u+\frac{5}{3}) = -3u-5$\\
+
+So we can summarize the interval of u until now:\\
+
+\underline{$-3 \leq u \leq -\frac{5}{3}$} \\
+$\boxed{x^*(u) = \begin{pmatrix}
+           -3u-5 \\
+           0 
+         \end{pmatrix}}$
+$\boxed{p^*(u) = -\frac{3u+5}{2}}$ \\
+
+\underline{$-\frac{5}{3} \leq u \leq -\frac{2}{3}$} \\
+Since $f_5$ is active we get x=0. From $f_2$ being active we get: $y = u+\frac{1}{3}\cdot 0 +\frac{5}{3} = u +\frac{5}{3}$.\\
+So we get: \\
+
+$\boxed{x^*(u) = \begin{pmatrix}
+           0 \\
+           u +\frac{5}{3} 
+         \end{pmatrix}}$
+$\boxed{p^*(u) = -u -\frac{5}{3}}$
+
+ 
 
 
 \end{document}\\
