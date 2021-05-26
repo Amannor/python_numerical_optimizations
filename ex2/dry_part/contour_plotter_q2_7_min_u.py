@@ -52,17 +52,6 @@ plt.contourf(X, Y, Z, 100, cmap='RdGy', alpha=0.6)
 d = np.linspace(-1,5,200)
 x,y = np.meshgrid(d,d)
 
-# im = plt.imshow( ((f_1(x,y)<=0) & (f_2(x,y)<=0) & (f_3(x,y)<=0) & (f_4(x,y)<=0) & (f_5(x,y)<=0) & (f_6(x,y)<=0)).astype(int) , 
-#                 extent=(x.min(),x.max(),y.min(),y.max()),origin="lower", cmap="Greys")
-# save_fig('q2_1.png')
-
-
-# #For q2_2 I already pre calculated the minimum point (https://www.wolframalpha.com/input/?i=min+0.5x-y%2C+-x%2By-1%3C%3D0%2C+-x%2F3%2By-5%2F3%3C%3D0%2C+x-4%3C%3D0%2C+y-3%3C%3D0%2C+x%3E%3D0%2C+y%3E%3D0)
-# min_x, min_y = 1,2
-# plt.plot(min_x, min_y, 'bo')
-# save_fig('q2_2.png')
-
-
 im = plt.imshow( ((f_1(x,y)<=0) & (f_2_min_u(x,y)<=0) & (f_3(x,y)<=0) & (f_4(x,y)<=0) & (f_5(x,y)<=0) & (f_6(x,y)<=0)).astype(int) , 
                 extent=(x.min(),x.max(),y.min(),y.max()),origin="lower", cmap="Greys")
 
