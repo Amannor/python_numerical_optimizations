@@ -93,6 +93,7 @@ See figure below. \\
 
 
 \clearpage\underline{\textbf{Question 2}}:\\
+
 \underline{\textbf{2.1}} \\
 The graph of the function $f_0(x,y) = 0.5x-y$ is a plane.
 
@@ -246,7 +247,7 @@ We'll divide into sections: \\
 
 \underline{$u<-3$} \\
 
-This case is the simplest since it doesn't have any minimum. One can easily see in the following link the area of the intersection stop to share any area exactly where $u$ passes the threshold of the value of 3: \\
+This case is the simplest since it doesn't have any minimum. One can easily see in the following link the area of the intersection of all the constraints becomes an empty set exactly where $u$ passes the threshold of the value of 3: \\
 \begin{lstlisting}[breaklines]
 https://www.desmos.com/calculator/iclrgw00jl
 \end{lstlisting}
@@ -297,9 +298,116 @@ $\boxed{x^*(u) = \begin{pmatrix}
            0 \\
            u +\frac{5}{3} 
          \end{pmatrix}}$
-$\boxed{p^*(u) = -u -\frac{5}{3}}$
+$\boxed{p^*(u) = -u -\frac{5}{3}}$ \\
 
- 
+\underline{\textbf{2.9}} \\
+
+\underline{$u \geq u_{max} (=\frac{2}{3})$} \\
+
+Here again we'll call upon the help of the desmos link (aforementioned) to help us get a geometrical intuition as to what happens in this case. It's clear that the intersection area between all the functions of the constrains doesn't change for values of u that exceed $u_{max}$. Hence for all $u \geq u_{max}$, the values of $x^*(u), p^*(u)$ are the same as when $u=\frac{2}{3}$ and can be calculated from what we calculated in 2.5 above:\\
+$x^*(u) = (\frac{3}{2}u+1, \frac{3}{2}u+2) = (\frac{3}{2} \cdot \frac{2}{3}+1, \frac{3}{2}\cdot \frac{2}{3}+2) = (2,3)$ \\
+
+$p^*(u) = -\frac{3}{4}u-\frac{3}{2} = -\frac{3}{4}\cdot \frac{2}{3}-\frac{3}{2} = -2$
+
+As for the constraints: \\
+
+\begin{multline*}
+f_1(2,3) = -2+3-1 = 0 \rightarrow \boxed{f_1 \; is \; active} \\
+f_2(2,3) = -\frac{2}{3}+3-\frac{5}{3}-\frac{2}{3} = 0 \rightarrow \boxed{f_2 \; is  \; active} \\
+f_3(2,3) = 2-4<0 \rightarrow \boxed{f_3 \; is \; not  \; active} \\
+f_4(2,3) = 3-3=0 \rightarrow \boxed{f_4 \; is \; active} \\
+f_5(2,3) = -2<0 \rightarrow \boxed{f_5 \; is \; not \; active} \\
+f_6(2,3) = -3<0 \rightarrow \boxed{f_6 \; is \; not \; active} \\
+\end{multline*} \\
+
+\underline{\textbf{2.10}} \\
+
+\clearpage\underline{\textbf{Question 3}}:\\
+
+$f_0(x_1,x_2)  =\frac{1}{2}(x_1^2+x_2^2)$ \\
+
+$f_1(x_1,x_2) = 1-x_1 \leq 0$ \\
+
+\underline{\textbf{3.1}} \\
+Per definition (lecture 4, slide 37): \\
+$\ell(x, \lambda, \nu) = \frac{1}{2}(x_1^2+x_2^2) + \lambda_1(1-x_1)$ \\
+
+\underline{\textbf{3.2}} \\
+Per definition (lecture 4, slide 41, specifically the example at slide 49) - we first nee to derive $\ell(x, \lambda, \nu)$ to find the infimum: \\
+
+$\nabla_x \ell(x, \lambda, \nu) =     \begin{pmatrix}
+           \frac{\partial \ell}{\partial x_1} \\
+            \frac{\partial \ell}{\partial x_2} 
+         \end{pmatrix} = 
+  \begin{pmatrix}
+           x_1 - \lambda_1 \\
+            x_2 
+         \end{pmatrix} = 0 \rightarrow x_{min} = 
+  \begin{pmatrix}
+           \lambda_1 \\
+            0 
+         \end{pmatrix}$ \\
+
+$g(\lambda, \nu) = \ell(x_{min}, \lambda, \nu) =  
+\frac{1}{2}(\lambda_1^2+0) + \lambda_1(1-\lambda_1)=
+-\lambda_1^2 + \lambda_1
+$ \\
+
+\underline{\textbf{3.3}} \\
+max $-\lambda_1^2 + \lambda_1$\\s.t\\
+$\lambda \geq0$ \\
+
+Note that $\lambda$ is a $1X1$ vector consisting only of $\lambda_1$ 
+
+\underline{\textbf{3.4}} \\
+Yes, strong duality holds. We saw in class that it's sufficient to find a feasible x s.t. $f_1(x)<0$. We can choose, for example $x =   \begin{pmatrix}
+            2 \\
+            0 
+         \end{pmatrix}$
+$f_1(x) = 1-2=-1<0$.
+Q.E.D
+
+\underline{\textbf{3.5}} \\
+
+The KKT conditions are from class (lecture 6. slide 23), in case strong duality holds and that given $x^*,(\lambda^*, \nu^*)$ are primal and dual optimal points, respectively: \\
+
+\begin{multline*} \\
+f_1(x^*) = 1-x_1^* \leq 0 \\
+\lambda_1^* \geq 0 \\
+\lambda_1^*(1-x_1^*)=0 \\
+\begin{pmatrix}
+	x_1^* \\ x_2^*
+\end{pmatrix} -
+\begin{pmatrix}
+	\lambda_1^* \\ 0
+\end{pmatrix}  =0 \\
+\end{multline*} \\
+
+\underline{\textbf{3.6}} \\
+For this problem the KKT conditions are sufficient and necessary, as the involved functions are convex and differentiable. \\
+
+\underline{\textbf{3.7}} \\
+Per above KKT conditions: \\
+\begin{multline*} \\
+\begin{pmatrix}
+	x_1^* \\ x_2^*
+\end{pmatrix} -
+\begin{pmatrix}
+	\lambda_1^* \\ 0
+\end{pmatrix}  =0 
+\rightarrow 
+x_1^*=\lambda_1^*, x_2^*=0 \\
+\lambda_1^*(1-x_1^*)=0 = x_1^*(1-x_1^*) \\
+\end{multline*} \\
+Constraint $f_1$ is that $x_1 \geq 1$ and therefore $x \neq 0$ so we're left with the solution $\lambda_1^*=x_1^*=0$ and so the minimizer is: \\
+$ x^* = 
+\begin{pmatrix}
+	1 \\ 0
+\end{pmatrix}  =0
+$
+
+
+
 
 
 \end{document}\\
