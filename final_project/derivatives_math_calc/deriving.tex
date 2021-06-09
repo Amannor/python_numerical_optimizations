@@ -1,0 +1,111 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\begin{document}
+
+
+
+$t, \kappa \in \mathbb{R}, x, \mu \in \mathbb{R}^n \; (x,\mu \; are \; a \; column \; vectors), G \in \mathbb{R}^{nXn}$ \\
+
+
+\begin{multline*}
+f(x) = -tx^T \mu + t \kappa x^T Gx - \sum_{i=1}^{n} log(x_i) = \\
+-t \begin{bmatrix} x_1 & \cdots & x_n \end{bmatrix}
+\begin{bmatrix} \mu_1 \\ \vdots \\ \mu_n \end{bmatrix} +
+t \kappa
+\begin{bmatrix} x_1 & \cdots & x_n \end{bmatrix}
+\begin{bmatrix} g_{11} & \cdots & g_{1n}   \\
+				\vdots & \ddots & \vdots \\				
+				g_{n1} & \cdots & g_{nn}
+\end{bmatrix}
+\begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} -
+\sum_{i=1}^{n} log(x_i) = \\
+-t(\mu_1 x_1 + \dots \mu_n x_n) +
+t \kappa
+\begin{bmatrix}
+	g_{11}x_1 + ... + g_{n1}x_n &
+		\cdots 					&
+	g_{1n}x_1 +...+g_{nn}x_n
+\end{bmatrix}
+\begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}-
+\sum_{i=1}^{n} log(x_i) = \\
+-t(\mu_1 x_1 + \dots \mu_n x_n) +
+t \kappa
+ ((x_1(g_{11}x_1 + ... + g_{n1}x_n)+\cdots+x_n(g_{1n}x_1 +...+g_{nn}x_n))
+-\sum_{i=1}^{n} log(x_i)
+\end{multline*} \\
+
+
+
+
+
+
+
+
+\underline{First derivative}\\
+
+
+$
+\nabla f(x) = \begin{bmatrix} \frac{\partial f}{\partial x_1} \\
+				\vdots \\     \frac{\partial f}{\partial x_n} \\ \end{bmatrix} 
+=
+\begin{bmatrix} 
+	-t \mu_1 + t\kappa ((2 g_{11} x_1 +...+g_{n1}x_n)+
+		 g_{12}x_2 + \cdots + g_{1n}x_n) - \frac{1}{x_1}\\
+	\vdots 							\\
+	-t \mu_n+ t\kappa(g_{n1}x_1 +g_{n1}x_2 + ...+ (g_{1n}x_1+...+2g_{nn}x_n))  - \frac{1}{x_n}\\
+\end{bmatrix} 
+$ \\ \\
+
+
+
+
+
+
+
+
+
+
+
+
+\underline{Second derivative}\\
+\begin{multline*} \\
+\nabla^2 f(x) = \begin{bmatrix} 
+\frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n}\
+\\ 
+\frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2} & \cdots & \frac{\partial^2 f}{\partial x_2 \partial x_n}
+\\ 
+\vdots & \vdots & \ddots & \vdots
+\\ 
+\frac{\partial^2 f}{\partial x_n \partial x_1} & \frac{\partial^2 f}{\partial x_n \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_n^2}
+\\ 
+				\end{bmatrix}
+=
+\begin{bmatrix} 
+	2t \kappa g_{11} + \frac{1}{x_1^2} &
+	t \kappa g_{21} + g_{12}           & \cdots &
+	t \kappa g_{n1} + g_{1n}
+		\\ 
+	t \kappa g_{21} + g_{12}           &
+	2t \kappa g_{22} + \frac{1}{x_2^2} & \cdots &
+	\frac{\partial^2 f}{\partial x_2 \partial 	x_n}
+		\\ 
+	\vdots & \vdots & \ddots & \vdots
+	\\ 
+	t \kappa g_{n1} + g_{1n} & \frac{\partial^2 f}		{\partial x_n \partial x_2} & \cdots & 2t \kappa g_{nn} + \frac{1}{x_n^2}
+\end{bmatrix} \\
+\stackrel{(g \; is \; symmetric)}{=}
+\begin{bmatrix} 
+	2t \kappa g_{11} + \frac{1}{x_1^2} & \cdots &
+	2t \kappa g_{n1}
+		\\ 
+	\vdots &  \ddots & \vdots
+		\\ 
+	2t \kappa g_{n1} &  \cdots & 2t \kappa g_{nn} + \frac{1}{x_n^2}
+\end{bmatrix}
+\end{multline*} \\ \\
+
+\end{document}\\
