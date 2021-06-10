@@ -1,0 +1,7 @@
+Reccomendation from Dr. Yonatan Mizrahi (lecturer of the course):
+"Hi,
+For the basic intro to the formulation we discussed today, the one that involves a risk tolerance parameter and hence gives rise to the notion of the Pareto efficient frontier, see the very short example 16.1 on p. 449-450 in Naucedal & Wright's book. The formulation that appears in Boyd's book is not the one incorporating both into the objective.
+Yoni"
+
+the url of the book:
+https://www.csie.ntu.edu.tw/~r97002/temp/num_optimization.pdf
