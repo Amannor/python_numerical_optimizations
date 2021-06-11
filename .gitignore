@@ -6,6 +6,11 @@ python39_ex1_venv/
 ex2_venv/
 
 my_submission/
+kaggle_data/
+
+#Latex files
+final_project/derivatives_math_calc/*.aux
+final_project/derivatives_math_calc/*.gz
 
 ##Below are stuff the github gave me as default for a python project
 
