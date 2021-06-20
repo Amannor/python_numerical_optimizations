@@ -11,11 +11,14 @@ def check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol):
 
 def does_meet_first_wolfe_condition(f, df_val_vector, xk, alpha, pk, c1):
 	#From lecture 3. slides 16-19: this function returns true iff 𝑓(𝑥_𝑘+𝛼*𝑝_𝑘)≤𝑓(𝑥𝑘)+𝑐_1*𝛼∇𝑓(𝑥_𝑘).𝑇*𝑝_𝑘
-	return f(xk+alpha*pk)[0] <=f(xk)+c1*alpha*df_val_vector.T@pk
+	return f(xk+alpha*pk)[0] <= f(xk)[0]+c1*alpha*df_val_vector.T@pk
 
 
 
-def bfgs_dir():
+def bfgs_dir(xk, dfxk, xk1, dfxk1):
+	bk1 = dfxk1 - dfk
+	bk1 /=xk1-xk
+
 	pass
 	#TODO
 
@@ -23,7 +26,7 @@ def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_met
 	x_vals = []
 	y_vals = []
 	x_prev = x0
-	f_prev, df_prev = f(x0)
+	f_prev, df_prev, dff_prev = f(x0, True)
 	x_vals.append(x_prev)
 	y_vals.append(f_prev)
 	i = 0
@@ -31,10 +34,10 @@ def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_met
 	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
 	iter_num_to_obj_val = OrderedDict()
 	iter_num_to_obj_val[i] = f_prev
-	pk = x0 #TODO - this is tmp of course
 	while not success and i < max_iter:
-		x_next = x_prev - step_size*df_prev
-		f_next, df_next = f(x_next)
+		pk = np.linalg.solve(dff_prev, df_prev) # Lecture 2 slide 40: 𝑝𝑘≔−∇^2(𝑓(𝑥_𝑘))^(−1)∇𝑓(𝑥_𝑘) + lecture 3 slide 7
+		x_next = x_prev +step_len*pk
+		f_next, df_next, dff_next = f(x_next, True)
 		i += 1
 		iter_num_to_obj_val[i]=f_next
 		cur_obj_val = abs(f_next - f_prev)
@@ -64,7 +67,8 @@ def gd_dir(f, x0, step_size, obj_tol, param_tol, max_iter):
 	iter_num_to_obj_val = OrderedDict()
 	iter_num_to_obj_val[i] = f_prev
 	while not success and i < max_iter:
-		x_next = x_prev - step_size*df_prev
+		pk = -step_size*df_prev
+		x_next = x_prev+pk
 		f_next, df_next = f(x_next)
 		i += 1
 		iter_num_to_obj_val[i]=f_next

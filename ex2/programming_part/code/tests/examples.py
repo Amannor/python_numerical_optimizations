@@ -9,7 +9,8 @@ def f_b_i(x, should_calc_hessian=False):
     f_val = eval_quad(Q, x)
     grad_vector_val = 2 * Q.dot(x)
     if should_calc_hessian:
-        #TODO
+       hessian = 2*np.eye(len(Q))
+       return f_val, grad_vector_val, hessian
     else:
         return f_val, grad_vector_val
 
@@ -18,7 +19,8 @@ def f_b_ii(x, should_calc_hessian=False):
     f_val = eval_quad(Q, x)
     grad_vector_val = 2 * Q.dot(x)
     if should_calc_hessian:
-        #TODO
+        hessian = np.array([[10.,0],[0,2.]])
+        return f_val, grad_vector_val, hessian
     else:
         return f_val, grad_vector_val
 
@@ -50,7 +52,8 @@ def f_d_lin(x, should_calc_hessian=False):
     f_val = a.T.dot(x)
     grad_vector_val = a
     if should_calc_hessian:
-        #TODO
+        hessian = np.zeros(len(x), len(x))
+        return f_val, grad_vector_val, hessian
     else:
         return f_val, grad_vector_val
 
