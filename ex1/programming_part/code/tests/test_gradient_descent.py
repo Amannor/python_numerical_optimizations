@@ -49,9 +49,9 @@ class TestStringMethods(unittest.TestCase):
         step_tolerance = 10**-8
         obj_tolerance = 10**-7
         print(f'Testing function: Rosenbrock')
-        grad_desc_res = src.unconstrained_min.gradient_descent(examples.f_c_rosebrock, x0, step_size, obj_tolerance,
+        grad_desc_res = src.unconstrained_min.gradient_descent(examples.f_c_rosenbrock, x0, step_size, obj_tolerance,
                                                                step_tolerance, max_iter)
-        src.utils.plot_contours_and_paths(examples.f_c_rosebrock, grad_desc_res[2])
+        src.utils.plot_contours_and_paths(examples.f_c_rosenbrock, grad_desc_res[2])
         self.assertTrue(grad_desc_res[1])
 
     def test_lin_min(self):
