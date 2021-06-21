@@ -27,7 +27,7 @@ def f_b_iii(x):
 
 def f_c_rosebrock(x):
     f_val = 100*(x[1] - x[0]**2)**2 + (1-x[0])**2
-    deriv_by_x1 = 400*x[0]**3+2*x[0]-400*x[0]*x[1]
+    deriv_by_x1 = 400*x[0]**3+2*x[0]-400*x[0]*x[1]-2
     deriv_by_x2 = 200*x[1]-200*x[0]**2
     grad_vector_val = np.array([deriv_by_x1 , deriv_by_x2])
     return f_val, grad_vector_val
