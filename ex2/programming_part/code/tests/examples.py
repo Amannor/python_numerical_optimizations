@@ -32,17 +32,19 @@ def f_b_iii(x, should_calc_hessian=False):
     f_val = eval_quad(Q, x)
     grad_vector_val = np.array([8*x[0] - 2*math.sqrt(3)*x[1], 4*x[1]-2*math.sqrt(3)*x[0]])
     if should_calc_hessian:
-        #TODO
+        hessian = np.array([[8.,-2*math.sqrt(3)],[-2*math.sqrt(3),4.]]) 
+        return f_val, grad_vector_val, hessian
     else:
         return f_val, grad_vector_val
 
-def f_c_rosebrock(x, should_calc_hessian=False):
+def f_c_rosenbrock(x, should_calc_hessian=False):
     f_val = 100*(x[1] - x[0]**2)**2 + (1-x[0])**2
-    deriv_by_x1 = 400*x[0]**3+2*x[0]-400*x[0]*x[1]
+    deriv_by_x1 = 400*x[0]**3+2*x[0]-400*x[0]*x[1]-2
     deriv_by_x2 = 200*x[1]-200*x[0]**2
     grad_vector_val = np.array([deriv_by_x1 , deriv_by_x2])
     if should_calc_hessian:
-        #TODO
+        hessian = np.array([[1200*x[0]**2+2-400*x[1],-400*x[1]],[-400*x[1],200.]])
+        return f_val, grad_vector_val, hessian
     else:
         return f_val, grad_vector_val
 

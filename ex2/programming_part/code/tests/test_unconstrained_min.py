@@ -1,11 +1,16 @@
 import unittest
 import numpy as np
 import examples
-import src.unconstrained_min
-import src.utils
+# from ..src import unconstrained_min
+# from ..src import utils
+# from .. import src.unconstrained_min
+from . import src
+# import src.utils
+# import src.unconstrained_min
 
 
-DIR_SELECTION_METHODS = ['nt', 'bfgs']
+# DIR_SELECTION_METHODS = ['nt', 'bfgs']
+DIR_SELECTION_METHODS = ['nt']
 
 class TestStringMethods(unittest.TestCase):
 
@@ -42,7 +47,7 @@ class TestStringMethods(unittest.TestCase):
                 print(f'Testing quad function: {quad_example.__name__} dir method: {dir_selection_method}')
                 grad_desc_res = src.unconstrained_min.line_search(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter, dir_selection_method, )
                 src.utils.plot_contours_and_paths(quad_example, grad_desc_res[2], dir_selection_method)
-				src.util.plot_iter_num_to_obj_val(quad_example, grad_desc_res[3], dir_selection_method)
+                src.utils.plot_iter_num_to_obj_val(quad_example, grad_desc_res[3], dir_selection_method)
                 self.assertTrue(grad_desc_res[1])
 
     def test_rosenbrock_min(self):
@@ -53,10 +58,10 @@ class TestStringMethods(unittest.TestCase):
         obj_tolerance = 10**-7
         for dir_selection_method in DIR_SELECTION_METHODS:
             print(f'Testing function: Rosenbrock dir method: {dir_selection_method}')
-            grad_desc_res = src.unconstrained_min.line_search(examples.f_c_rosebrock, x0, step_size, obj_tolerance,
+            grad_desc_res = src.unconstrained_min.line_search(examples.f_c_rosenbrock, x0, step_size, obj_tolerance,
                                                                    step_tolerance, max_iter, dir_selection_method)
-            src.utils.plot_contours_and_paths(examples.f_c_rosebrock, grad_desc_res[2], dir_selection_method)
-			src.util.plot_iter_num_to_obj_val(examples.f_c_rosebrock, grad_desc_res[3], dir_selection_method)
+            src.utils.plot_contours_and_paths(examples.f_c_rosenbrock, grad_desc_res[2], dir_selection_method)
+            src.utils.plot_iter_num_to_obj_val(examples.f_c_rosenbrock, grad_desc_res[3], dir_selection_method)
             self.assertTrue(grad_desc_res[1])
 
     ### Skipped in ex2 ###
