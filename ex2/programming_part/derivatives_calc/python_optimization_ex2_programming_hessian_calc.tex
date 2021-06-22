@@ -1,0 +1,105 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\begin{document}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\underline{In general}: \\
+
+\[
+\nabla^2 f(x) =
+\begin{bmatrix} 
+	\frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n}\
+\\ 
+	\frac{\partial^2 f}{\partial x_1 \partial x_2} & \frac{\partial^2 f}{\partial x_2^2} & \cdots & \frac{\partial^2 f}{\partial x_2 \partial x_n} \\ 
+	\vdots & \vdots & \ddots & \vdots \\ 
+	\frac{\partial^2 f}{\partial x_1 \partial x_n} & \frac{\partial^2 f}{\partial x_2 \partial x_n} & \cdots & \frac{\partial^2 f}{\partial x_n^2} \\ 
+\end{bmatrix}
+\]\\ \\
+
+\underline{\textbf{Function b.iii}}:\\
+\begin{multline*}
+Q = 
+\begin{bmatrix} 
+	\frac{\sqrt{3}}{2} & \frac{1}{2} \\ 
+	-\frac{1}{2} & \frac{\sqrt{3}}{2} \\ 
+\end{bmatrix}
+\begin{bmatrix} 5 & 0 \\ 0 & 1 \\ \end{bmatrix}
+\begin{bmatrix} 
+	\frac{\sqrt{3}}{2} & -\frac{1}{2} \\ 
+	\frac{1}{2} & \frac{\sqrt{3}}{2} \\ 
+\end{bmatrix}
+=
+\begin{bmatrix} 
+	\frac{5\sqrt{3}}{2} & \frac{1}{2} \\ 
+	-\frac{5}{2} & \frac{\sqrt{3}}{2} \\ 
+\end{bmatrix}
+\begin{bmatrix} 
+	\frac{\sqrt{3}}{2} & -\frac{1}{2} \\ 
+	\frac{1}{2} & \frac{\sqrt{3}}{2} \\ 
+\end{bmatrix}
+=
+\begin{bmatrix} 
+	\frac{5\sqrt{3}}{2} \cdot \frac{\sqrt{3}}{2} + \frac{1}{4} &
+	-\frac{5 \sqrt{3}}{4} + \frac{\sqrt{3}}{4} \\ 
+	-\frac{5 \sqrt{3}}{4} + \frac{\sqrt{3}}{4}                 &
+	\frac{5}{4} + \frac{3}{4} \\ 
+\end{bmatrix}
+= \\
+\begin{bmatrix} 
+	4         &	-\sqrt{3} \\ 
+	-\sqrt{3} &2          \\ 
+\end{bmatrix}
+\end{multline*}
+
+\begin{multline*}
+f(x) = x^T Q x =
+\begin{pmatrix} x_1 & x_2 \\ \end{pmatrix}
+\begin{pmatrix} 
+	4         &	-\sqrt{3} \\ 
+	-\sqrt{3} &2          \\ 
+\end{pmatrix}
+\begin{pmatrix} x_1 \\ x_2 \end{pmatrix}
+=
+\begin{pmatrix} 4x_1 -\sqrt{3}x_2 & -\sqrt{3}x_1+2x_2 \\ \end{pmatrix}
+\begin{pmatrix} x_1 \\ x_2 \end{pmatrix}
+= \\
+4x_1^2 -\sqrt{3} x_1 x_2 - \sqrt{3} x_1 x_2 +2x_2^2 
+=
+4x_1^2 - 2\sqrt{3} x_1 x_2 +2x_2^2 
+\end{multline*}
+
+\begin{multline*}
+\nabla f(x) =
+\begin{bmatrix}
+	8x_1 -2\sqrt{3}x_2 \\ 4x_2-2\sqrt{3}x_1
+\end{bmatrix} \\
+\nabla^2 f(x) =
+\begin{bmatrix} 
+	8 & -2\sqrt{3} \\ -2\sqrt{3} & 4 \\ 
+\end{bmatrix} \\
+\end{multline*} \\
+
+\underline{\textbf{Function c.Rosenbrock}}:\\
+\begin{multline*}
+f(x) = 100(x_2-x_1^2)^2+(1-x_1)^2 = \\
+100x_2^2-200x_1^2x_2+100x_1^4+1-2x_1+x_1^2 = \\
+100x_1^4+x_1^2-2x_1-200x_1^2x_2+100x_2^2\\
+\end{multline*}
+
+\begin{multline*}
+\nabla f(x) =
+\begin{bmatrix}
+	400x_1^3+2x_1-2-400x_1x_2 \\ 200x_2-200x_1^2
+\end{bmatrix} \\
+\nabla^2 f(x) =
+\begin{bmatrix} 
+	1200x_1^2+2-400x_2 & -400x_1 \\
+	-400x_1            & 200     \\ 
+\end{bmatrix} \\
+\end{multline*} \\
+
+\end{document}\\
