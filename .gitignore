@@ -1,5 +1,5 @@
 ##Stuff I added
-#IDE specific confg
+#IDE specific config
 .idea/
 
 my_submission/
@@ -8,7 +8,7 @@ kaggle_data/
 #Virtual environments
 python39_ex1_venv/
 ex2_venv/
-ex2_programming_venv
+ex2_programming_venv/
 
 #Latex files
 final_project/derivatives_math_calc/*.aux
