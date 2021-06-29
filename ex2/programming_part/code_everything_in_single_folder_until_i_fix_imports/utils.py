@@ -6,6 +6,7 @@ from matplotlib import patheffects
 import os
 
 MIN_AXIS_REACH = 1.5
+EXTRA_PLOT_SPACE = 0.2
 # PARENT_DIR = os.path.dirname(os.getcwd())
 
 def save_fig(f_name):
@@ -103,10 +104,12 @@ def plot_contours_and_paths(f, x, dir_selection_method=None):
     c0 = np.array([coordinate[0] for coordinate in x])
     max_abs_val0 = max(abs(min(c0)), max(c0))
     max_abs_val0 = max(max_abs_val0,MIN_AXIS_REACH)
+    max_abs_val0+=EXTRA_PLOT_SPACE
     linspace0 = np.linspace(-max_abs_val0, max_abs_val0)
     c1 = np.array([coordinate[1] for coordinate in x])
     max_abs_val1 = max(abs(min(c1)), max(c1))
     max_abs_val1 = max(max_abs_val1, MIN_AXIS_REACH)
+    max_abs_val1+=EXTRA_PLOT_SPACE
     linspace1 = np.linspace(-max_abs_val1, max_abs_val1)
 
 
