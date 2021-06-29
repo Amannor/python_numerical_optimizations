@@ -43,7 +43,7 @@ def should_stop_by_newton_decrement(pnt, hessian, epsilon=DEFAULT_EPSILON):
 	newton_decrement = pnt.T @ hessian @ pnt #Lecture 7+8 slide 36
 	return 0.5 * newton_decrement < epsilon
 
-def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_method, init_step_len, slope_ratio, back_track_factor):
+def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slope_ratio, back_track_factor):
 	x_vals = []
 	y_vals = []
 	x_prev = x0
@@ -54,7 +54,7 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_metho
 	success = False
 	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
 	iter_num_to_obj_val = OrderedDict()
-	iter_num_to_obj_val[i+1] = f_prev
+	iter_num_to_obj_val[i] = f_prev
 	B_prev = np.eye(len(x0))
 	while not success and i < max_iter:
 		success = should_stop_by_newton_decrement(x_prev, hessian)
@@ -64,7 +64,7 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_metho
 		x_next = x_prev +step_len*pk
 		f_next, df_next, hessian = f(x_next, True)
 		i += 1
-		iter_num_to_obj_val[i+1]=f_next
+		iter_num_to_obj_val[i]=f_next
 		cur_obj_val = abs(f_next - f_prev)
 		cur_param_val = np.linalg.norm(x_next - x_prev)
 		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val)
@@ -79,7 +79,7 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_metho
 	print(f'Function {f.__name__} (bfgs) final success status: {"Success" if success else "Fail"}')
 	return x_next, success, x_vals, iter_num_to_obj_val
 
-def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_method, init_step_len, slope_ratio, back_track_factor):
+def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slope_ratio, back_track_factor):
 	x_vals = []
 	y_vals = []
 	x_prev = x0
@@ -101,7 +101,6 @@ def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_met
 		cur_obj_val = abs(f_next - f_prev)
 		cur_param_val = np.linalg.norm(x_next - x_prev)
 		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val)
-		# success = check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol) or does_meet_first_wolfe_condition(f, df_prev, x_prev, step_len, pk, slope_ratio)
 		success = check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol) 
 		x_prev = x_next
 		f_prev = f_next
@@ -123,13 +122,13 @@ def gd_dir(f, x0, step_size, obj_tol, param_tol, max_iter):
 	success = False
 	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
 	iter_num_to_obj_val = OrderedDict()
-	iter_num_to_obj_val[i+1] = f_prev
+	iter_num_to_obj_val[i] = f_prev
 	while not success and i < max_iter:
 		pk = -step_size*df_prev
 		x_next = x_prev+pk
 		f_next, df_next = f(x_next)
 		i += 1
-		iter_num_to_obj_val[i+1]=f_next
+		iter_num_to_obj_val[i]=f_next
 		cur_obj_val = abs(f_next - f_prev)
 		cur_param_val = np.linalg.norm(x_next - x_prev)
 		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val)
@@ -156,8 +155,8 @@ def line_search(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_me
 	if dir_selection_method =='gd':
 		return gd_dir(f, x0, step_size, obj_tol, param_tol, max_iter)
 	elif dir_selection_method =='nt':
-		return newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_method, init_step_len, slope_ratio, back_track_factor)
+		return newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slope_ratio, back_track_factor)
 	elif dir_selection_method =='bfgs':
-		return bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_method, init_step_len, slope_ratio, back_track_factor)
+		return bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slope_ratio, back_track_factor)
 	else:
 		raise Exception('dir_selection_method param supplied with invalid value')
