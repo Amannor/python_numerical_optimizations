@@ -69,9 +69,6 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_metho
 	print(f'Function {f.__name__} (Newton) final success status: {"Success" if success else "Fail"}')
 	return x_next, success, x_vals, iter_num_to_obj_val
 
-	pass
-	#TODO
-
 def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, dir_selection_method, init_step_len, slope_ratio, back_track_factor):
 	x_vals = []
 	y_vals = []
