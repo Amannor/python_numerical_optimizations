@@ -11,6 +11,8 @@ DEFAULT_BACKTRACK_FACTOR = 0.2
 #My consts
 DEFAULT_EPSILON = 10 ** -3
 MAX_ITER_NUM = 2000
+DEFAULT_STEP_TOLERANCE = 10**-16# Setting to 10**-15 will result in one less iteration
+DEFAULT_OBJ_TOLERANCE = 10**-12
 
 
 #This method is identical to the one in unconstraind_min.py but is here for (in)dependency reasons
@@ -36,6 +38,15 @@ def get_concatenated_df_dff(func, x, ineq_constraints):
 
     return grad_f, hessian
 
+def get_matrix_in_adjusted_shape(mat):
+    # Adjusting shape of mat (adding another dimension of size 1 if needed) to make the multiplication work (taken from: https://stackoverflow.com/a/22737220)
+    if len(mat.shape) == 1:
+        mat =  mat[:, np.newaxis]
+    return mat
+
+
+def check_converge(cur_param_val, cur_obj_val, param_tol=DEFAULT_STEP_TOLERANCE, obj_tol=DEFAULT_OBJ_TOLERANCE):
+    return cur_param_val<=param_tol or cur_obj_val<=obj_tol
 
 def newton_method(func, x, n, epsilon, ineq_constraints, eq_constraints_mat, max_iter):
     success = False
@@ -47,20 +58,30 @@ def newton_method(func, x, n, epsilon, ineq_constraints, eq_constraints_mat, max
     while (not success and i<max_iter):
         x_vals.append(x)
         grad_f, hessian = get_concatenated_df_dff(func, x, ineq_constraints)
-        if eq_constraints_mat and len(eq_constraints_mat)>0:
-            rhs = np.append(-grad_f, 0)
-            #TODO hessian
+        if eq_constraints_mat is not None and len(eq_constraints_mat)>0:
+            eq_constraints_mat = get_matrix_in_adjusted_shape(eq_constraints_mat)
+            padding_size = eq_constraints_mat.shape[1]
+            rhs = np.append(-grad_f, np.zeros([padding_size]))
+            # print(f'grad_f.shape {grad_f.shape} eq_constraints_mat.shape {eq_constraints_mat.shape} hessian.shape {hessian.shape}')
+            kkt_mat = np.append(hessian, eq_constraints_mat, axis=1) #https://stackoverflow.com/a/20688968
+            bottom_part_kkt = np.append(eq_constraints_mat.T, np.zeros([padding_size, padding_size]), axis=1)
+            # print(f'kkt_mat.shape {kkt_mat.shape} bottom_part_kkt.shape {bottom_part_kkt.shape}')
+
+            # kkt_mat = np.concatenate((kkt_mat, bottom_part_kkt), axis=1)
+            kkt_mat = np.concatenate((kkt_mat, bottom_part_kkt))
+            # print(f'kkt_mat {kkt_mat}')
+            # print(f'kkt_mat.shape {kkt_mat.shape}')
+            # raise Exception("Bla")
         else:
             rhs = -grad_f
             kkt_mat = hessian 
         pnt = np.linalg.solve(kkt_mat, rhs)
         pnt = pnt[:n]
         newton_decrment = np.power(calc_newton_decrment(pnt, hessian), 2) #Lecture 7+8 slide 36
-        if (0.5 * newton_decrment < epsilon):
+        if 0.5 * newton_decrment < epsilon:
             success = True
         else:
             ak = get_step_len_by_first_wolfe(func, func(x)[1], x, pnt)
-            # ak = 1 
             x_prev = x
             x=x+ak*pnt
             f_next = func(x)[0]
@@ -68,6 +89,7 @@ def newton_method(func, x, n, epsilon, ineq_constraints, eq_constraints_mat, max
             cur_obj_val_change = abs(f_next - f_prev)
             utils.report_iteration(i+1, x, func(x)[0], cur_param_val_change, cur_obj_val_change)
             f_prev = func(x_prev)[0]
+            success = success or check_converge(cur_param_val_change, cur_obj_val_change)
         i+=1
 
     return x_vals, success
