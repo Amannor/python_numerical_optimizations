@@ -148,18 +148,7 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         ineq_constraints_summary_str = " ".join(ineq_constraints_summary_str)
         print(f'{examples.f_lp.__name__} {"" if examples.f_lp else "Not "} Succesful.\nFinal candidate: {x_vals[-1]} objective function value: {obj_val} inequality constraints values: {ineq_constraints_summary_str}')
         utils.plot_for_lp(examples.f_lp, x_vals, ineq_constraints)
-        # x0 = np.array([2,2])
-        # step_size = 0.001
-        # max_iter = 10000
-        # step_tolerance = 10**-8
-        # obj_tolerance = 10**-7
-        # for dir_selection_method in DIR_SELECTION_METHODS:
-        #     print(f'Testing function: Rosenbrock dir method: {dir_selection_method}')
-        #     grad_desc_res = unconstrained_min.line_search(examples.f_c_rosenbrock, x0, step_size, obj_tolerance,
-        #                                                            step_tolerance, max_iter, dir_selection_method)
-        #     utils.plot_contours_and_paths(examples.f_c_rosenbrock, grad_desc_res[2], dir_selection_method)
-        #     utils.plot_iter_num_to_obj_val(examples.f_c_rosenbrock, grad_desc_res[3], dir_selection_method)
-        #     self.assertTrue(grad_desc_res[1])
+        self.assertTrue(success)
 
 if __name__ == '__main__':
     unittest.main()
