@@ -32,7 +32,6 @@ def plot_for_lp(f, x_vals, ineq_constraints):
     plt.contourf(X, Y, Z, 100, cmap='RdGy', alpha=0.6)
 
     #From: https://stackoverflow.com/a/51389483
-    # d = np.linspace(-1,3,200)
     d = np.linspace(-1,3)
     x,y = np.meshgrid(d,d)
 
@@ -97,12 +96,10 @@ def plot_for_lp_first_take(f, x_vals, ineq_constraints):
 
     # plt.show()
 
-def ineq_constraint_func_adapter(ineq_constraint, x, y):
-    return ineq_constraint(np.array([x,y]))[0]
 
 
 
-def plot_contours_and_paths(f, x, dir_selection_method=None, ineq_constraints=None):
+def plot_contours_and_paths(f, x, dir_selection_method=None):
     c0 = np.array([coordinate[0] for coordinate in x])
     max_abs_val0 = max(abs(min(c0)), max(c0))
     max_abs_val0 = max(max_abs_val0,MIN_AXIS_REACH)
@@ -127,24 +124,17 @@ def plot_contours_and_paths(f, x, dir_selection_method=None, ineq_constraints=No
     title_dir_suffix = f' ({dir_selection_method})' if dir_selection_method else ''
     ax.set_title(f'Contour lines and objective values {f.__name__}{title_dir_suffix}')
     ax.scatter(c0, c1)
-    if ineq_constraints and len(ineq_constraints) == 4: #Note: hard-coded for our specific case since I didn't fund a way to that for arbitrary length
-        x, y = np.meshgrid(np.linspace(-0.1, 2.1), np.linspace(-0.1, 1.1))
-        im = ax.imshow( ((ineq_constraint_func_adapter(ineq_constraints[0], x, y)<=0) & (ineq_constraint_func_adapter(ineq_constraints[1], x, y)<=0) & (ineq_constraint_func_adapter(ineq_constraints[2], x, y)<=0) & (ineq_constraint_func_adapter(ineq_constraints[3], x, y)<=0)).astype(int) , 
-                extent=(x.min(),x.max(),y.min(),y.max()),origin="lower", cmap="Greys")
 
     fig_name_dir_suffix = f'_{dir_selection_method}' if dir_selection_method else ''
     save_fig(f'{f.__name__}{fig_name_dir_suffix}.png')
 
 def plot_iter_num_to_obj_val(f, iter_num_to_obj_val, dir_selection_method):
     plt.clf()
-    # print(f'type(iter_num_to_obj_val) {type(iter_num_to_obj_val)}')
     x, y = zip(*iter_num_to_obj_val.items())
-    # plt.plot(x, y)
     plt.scatter(x, y)
     plt.title(f'Iterations to objective values {f.__name__} ({dir_selection_method})')
     plt.xlabel("Iteration no.")
     plt.ylabel("Objective function value")
-    # plt.show()
     save_fig(f'{f.__name__}_{dir_selection_method}_iterations_to_obj_val.png')
 
 
