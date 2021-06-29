@@ -13,7 +13,24 @@ def save_fig(f_name):
     path = os.path.join(os.getcwd(), 'output', f_name)
     plt.savefig(path)
 
+def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_rhs):
+    #From: https://matplotlib.org/2.0.2/mpl_toolkits/mplot3d/tutorial.html
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
 
+    #Based on example from https://matplotlib.org/2.0.2/mpl_examples/mplot3d/surface3d_demo.py
+    X = np.arange(-5, 5, 0.25)
+    xlen = len(X)
+    Y = np.arange(-5, 5, 0.25)
+    ylen = len(Y)
+    X, Y = np.meshgrid(X, Y)
+    Z = 1-X-Y
+    ax.plot_surface(X, Y, Z)
+
+    ax.scatter([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals])
+    save_fig(f.__name__)
+
+    # plt.show()
 
 def plot_for_lp(f, x_vals, ineq_constraints):
     
@@ -40,64 +57,13 @@ def plot_for_lp(f, x_vals, ineq_constraints):
                     extent=(x.min(),x.max(),y.min(),y.max()),origin="lower", cmap="Greys")
 
     plt.scatter([c[0] for c in x_vals], [c[1] for c in x_vals])
+    for i, x_val in enumerate(x_vals):
+        # x_val0_str = "{:.2f}".format(x_val[0])
+        # x_val1_str = "{:.2f}".format(x_val[1])
+        # plt.annotate(f'({i}) ({x_val0_str},{x_val1_str})', (x_val[0], x_val[1]))
+        plt.annotate(f'(x{i})', (x_val[0], x_val[1]))
 
     save_fig(f.__name__)
-
-def plot_for_lp_first_take(f, x_vals, ineq_constraints):
-    #From: https://matplotlib.org/devdocs/gallery/images_contours_and_fields/contours_in_optimization_demo.html
-    fig, ax = plt.subplots(figsize=(6, 6))
-
-    # Set up survey vectors
-    xvec = np.linspace(-0.1, 2.1)
-    yvec = np.linspace(-0.1, 1.1)
-
-    # Set up survey matrices.  Design disk loading and gear ratio.
-    x1, x2 = np.meshgrid(xvec, yvec)
-
-    # Evaluate some stuff to plot
-    obj = -x1-x2
-    g1 = -x1-x2+1
-    g2 = x2-1
-    g3 = x1-2
-    g4 = -x2
-
-    cntr = ax.contour(x1, x2, obj, [0.01, 0.1, 0.5, 1, 2, 4, 8, 16],
-                      colors='black')
-    ax.clabel(cntr, fmt="%2.1f", use_clabeltext=True)
-
-    cg1 = ax.contour(x1, x2, g1, [0], colors='sandybrown')
-    # plt.setp(cg1.collections, path_effects=[patheffects.withTickedStroke(angle=135)])
-    plt.setp(cg1.collections)
-
-    cg2 = ax.contour(x1, x2, g2, [0], colors='orangered')
-    # plt.setp(cg2.collections, path_effects=[patheffects.withTickedStroke(angle=60, length=2)])
-    plt.setp(cg2.collections)
-
-    cg3 = ax.contour(x1, x2, g3, [0], colors='mediumblue')
-    # plt.setp(cg3.collections, path_effects=[patheffects.withTickedStroke(spacing=7)])
-    plt.setp(cg3.collections)
-    
-    cg4 = ax.contour(x1, x2, g4, [0], colors='mediumblue')
-    # plt.setp(cg4.collections,   path_effects=[patheffects.withTickedStroke(spacing=7)])
-    plt.setp(cg4.collections)
-    
-    ax.set_xlim(-1, 2)
-    ax.set_ylim(-1, 2)
-    plt.show()
-    # plot_contours_and_paths(f, x_vals)
-
-    # f = lambda x,y : np.sqrt(2*x*y)-x-y
-    # g = lambda x,y : np.sqrt(x**2+y**2)-2
-
-    # d = np.linspace(-2,2,2000)
-    # x,y = np.meshgrid(d,d)
-
-    # im = plt.imshow( ((g(x,y)<=f(x,y)) & (f(x,y)<=1)).astype(int) , 
-    #                 extent=(x.min(),x.max(),y.min(),y.max()),origin="lower", cmap="Greys")
-
-    # plt.show()
-
-
 
 
 def plot_contours_and_paths(f, x, dir_selection_method=None):
@@ -131,14 +97,16 @@ def plot_contours_and_paths(f, x, dir_selection_method=None):
     fig_name_dir_suffix = f'_{dir_selection_method}' if dir_selection_method else ''
     save_fig(f'{f.__name__}{fig_name_dir_suffix}.png')
 
-def plot_iter_num_to_obj_val(f, iter_num_to_obj_val, dir_selection_method):
+def plot_iter_num_to_obj_val(f, iter_num_to_obj_val, dir_selection_method=None):
     plt.clf()
     x, y = zip(*iter_num_to_obj_val.items())
     plt.scatter(x, y)
-    plt.title(f'Iterations to objective values {f.__name__} ({dir_selection_method})')
+    title_dir_suffix = f' ({dir_selection_method})' if dir_selection_method else ''
+    plt.title(f'Iterations to objective values {f.__name__}{title_dir_suffix}')
     plt.xlabel("Iteration no.")
     plt.ylabel("Objective function value")
-    save_fig(f'{f.__name__}_{dir_selection_method}_iterations_to_obj_val.png')
+    fig_name_dir_suffix = f'_{dir_selection_method}' if dir_selection_method else ''
+    save_fig(f'{f.__name__}{fig_name_dir_suffix}_iterations_to_obj_val.png')
 
 
 def report_iteration(iter_count, cur_location, cur_obj_val, cur_step_len, cur_obj_f_val_change):

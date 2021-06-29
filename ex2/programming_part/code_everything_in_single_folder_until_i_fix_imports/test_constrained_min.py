@@ -129,7 +129,7 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         eq_constraints_rhs = np.ones(1)
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, x0)
         print(f'Finished {func.__name__} len(x_vals) {len(x_vals)} success {success} obj_val {obj_val} constraints_vals {constraints_vals}')
-        # utils.plot_for_qp(func, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_rhs)
+        utils.plot_for_qp(func, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_rhs)
 
         iter_num_to_obj_val = get_iter_num_to_obj_val_from_x_vals(func, x_vals)
         utils.plot_iter_num_to_obj_val(func, iter_num_to_obj_val)
