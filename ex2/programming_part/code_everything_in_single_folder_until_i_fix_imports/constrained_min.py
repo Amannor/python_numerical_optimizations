@@ -9,7 +9,7 @@ DEFAULT_SLOPE_RATIO = 10**-4
 DEFAULT_BACKTRACK_FACTOR = 0.2
 
 #My consts
-DEFAULT_EPSILON = 10 ** -2
+DEFAULT_EPSILON = 10 ** -3
 MAX_ITER_NUM = 2000
 
 
@@ -59,8 +59,8 @@ def newton_method(func, x, n, epsilon, ineq_constraints, eq_constraints_mat, max
         if (0.5 * newton_decrment < epsilon):
             success = True
         else:
-            # ak = get_step_len_by_first_wolfe(func, func(x)[1], x, pnt) #TODO - calc this from first wolfe condition?
-            ak = 1 
+            ak = get_step_len_by_first_wolfe(func, func(x)[1], x, pnt)
+            # ak = 1 
             x_prev = x
             x=x+ak*pnt
             f_next = func(x)[0]
