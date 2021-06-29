@@ -33,7 +33,7 @@ def get_concatenated_df_dff(func, x, ineq_constraints):
         return grad_f, hessian
     for ineq_constraint in ineq_constraints:
         ineq_constraint_res = ineq_constraint(x)
-        grad_f+=ineq_constraint_res[1] #Maybe ineq_constraint_res[1].T ??
+        grad_f+=ineq_constraint_res[1] 
         hessian+=ineq_constraint_res[2]
 
     return grad_f, hessian
@@ -62,16 +62,9 @@ def newton_method(func, x, n, epsilon, ineq_constraints, eq_constraints_mat, max
             eq_constraints_mat = get_matrix_in_adjusted_shape(eq_constraints_mat)
             padding_size = eq_constraints_mat.shape[1]
             rhs = np.append(-grad_f, np.zeros([padding_size]))
-            # print(f'grad_f.shape {grad_f.shape} eq_constraints_mat.shape {eq_constraints_mat.shape} hessian.shape {hessian.shape}')
             kkt_mat = np.append(hessian, eq_constraints_mat, axis=1) #https://stackoverflow.com/a/20688968
             bottom_part_kkt = np.append(eq_constraints_mat.T, np.zeros([padding_size, padding_size]), axis=1)
-            # print(f'kkt_mat.shape {kkt_mat.shape} bottom_part_kkt.shape {bottom_part_kkt.shape}')
-
-            # kkt_mat = np.concatenate((kkt_mat, bottom_part_kkt), axis=1)
             kkt_mat = np.concatenate((kkt_mat, bottom_part_kkt))
-            # print(f'kkt_mat {kkt_mat}')
-            # print(f'kkt_mat.shape {kkt_mat.shape}')
-            # raise Exception("Bla")
         else:
             rhs = -grad_f
             kkt_mat = hessian 
