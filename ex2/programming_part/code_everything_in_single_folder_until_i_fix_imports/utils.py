@@ -13,24 +13,57 @@ def save_fig(f_name):
     path = os.path.join(os.getcwd(), 'output', f_name)
     plt.savefig(path)
 
+def get_index_of_first_inequality_met(point ,ineq_constraints):
+    for i in range(len(ineq_constraints)):
+        ineq_res = ineq_constraints[i](point, True)
+        # print(f'point[0] {point[0]} i {i} ineq_res {ineq_res}')
+        if ineq_constraints[i](point, True)<=0 :
+            return i
+    return -1
+
 def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_rhs):
     #From: https://matplotlib.org/2.0.2/mpl_toolkits/mplot3d/tutorial.html
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
+    qp_equality_func_for_xy = lambda x,y: 1-x-y
+
     #Based on example from https://matplotlib.org/2.0.2/mpl_examples/mplot3d/surface3d_demo.py
-    X = np.arange(-5, 5, 0.25)
-    xlen = len(X)
-    Y = np.arange(-5, 5, 0.25)
-    ylen = len(Y)
-    X, Y = np.meshgrid(X, Y)
-    Z = 1-X-Y
-    ax.plot_surface(X, Y, Z)
+    X_range = np.arange(-5, 5, 0.25)
+    xlen = len(X_range)
+    Y_range = np.arange(-5, 5, 0.25)
+    ylen = len(Y_range)
+    X, Y = np.meshgrid(X_range, Y_range)
+    Z = qp_equality_func_for_xy(X,Y)
+    colors = np.zeros(X.shape, dtype=str)
+    # colortuple = ('b', 'g', 'r', 'y', 'c', 'm', 'k') #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
+    color_dict = {'b': 'Blue', 'g': 'Green', 'r': 'Red', 'y': 'Yellow', 'c': 'Cyan', 'm': 'Magenta', 'k': 'Black'} #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
+    ineq_to_color = {}
+    for y_i in range(ylen):
+        for x_i in range(xlen):
+            x_val, y_val = X_range[x_i], Y_range[y_i]
+            point = np.array([x_val, y_val, qp_equality_func_for_xy(x_val, y_val)])
+            ineq_i = get_index_of_first_inequality_met(point, ineq_constraints)
+            if ineq_i>=0:
+                ineq_str = ineq_constraints[ineq_i](None, return_str_rep=True) 
+                cur_color = list(color_dict.keys())[ineq_i % len(color_dict)]
+                colors[x_i, y_i] = cur_color
+                
+                if not ineq_str in ineq_to_color:
+                    ineq_to_color[ineq_str] = color_dict[cur_color]
 
+    
+    text2d = "Ineqaulities to colors mapping:"
+    for ineq_str in sorted(ineq_to_color.keys()):
+        text2d+=f'\n{ineq_str}: {ineq_to_color[ineq_str]}'
+    ax.text2D(0.05, 0.95, text2d, transform=ax.transAxes)
+    ax.plot_surface(X, Y, Z, facecolors=colors)
     ax.scatter([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals])
+    # ax.set_title(f'Contour lines and objective values {f.__name__}{title_dir_suffix}') #TODO
+    ax.set_xlabel('X axis')
+    ax.set_ylabel('Y axis')
+    ax.set_zlabel('Z axis')
     save_fig(f.__name__)
-
-    # plt.show()
 
 def plot_for_lp(f, x_vals, ineq_constraints):
     
