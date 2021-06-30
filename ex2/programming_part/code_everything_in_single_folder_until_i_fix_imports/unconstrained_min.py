@@ -18,7 +18,6 @@ def get_step_len_by_first_wolfe(f, df_val_vector, xk, alpha, pk, c1, back_track_
 	#From lecture 3. slides 16-19: the loop stops iff 𝑓(𝑥_𝑘+𝛼*𝑝_𝑘)≤𝑓(𝑥_𝑘)+𝑐_1*𝛼∇𝑓(𝑥_𝑘).𝑇*𝑝_𝑘
 	while not f(xk+alpha*pk)[0] <= f(xk)[0]+c1*alpha*df_val_vector.T@pk: 
 		alpha*=back_track_factor
-	# print(f'{chr(945)}: {alpha}')
 	return alpha
 
 
@@ -52,7 +51,7 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slop
 	y_vals.append(f_prev)
 	i = 0
 	success = False
-	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
+	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"), "bfgs")
 	iter_num_to_obj_val = OrderedDict()
 	iter_num_to_obj_val[i] = f_prev
 	B_prev = np.eye(len(x0))
@@ -67,7 +66,7 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slop
 		iter_num_to_obj_val[i]=f_next
 		cur_obj_val = abs(f_next - f_prev)
 		cur_param_val = np.linalg.norm(x_next - x_prev)
-		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val)
+		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val, "bfgs")
 		success = success or check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol)
 
 		B_prev = get_next_B_matrix(B_prev, x_prev, x_next, df_prev, df_next) #def get_next_B_matrix(B_k, x_k, x_k_plus_1, df_k, df_k_plus_1):
@@ -76,7 +75,6 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slop
 		df_prev = df_next
 		x_vals.append(x_prev)
 		y_vals.append(f_prev)
-	print(f'Function {f.__name__} (bfgs) final success status: {"Success" if success else "Fail"}')
 	return x_next, success, x_vals, iter_num_to_obj_val
 
 def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slope_ratio, back_track_factor):
@@ -88,7 +86,7 @@ def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, sl
 	y_vals.append(f_prev)
 	i = 0
 	success = False
-	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
+	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"), "nt")
 	iter_num_to_obj_val = OrderedDict()
 	iter_num_to_obj_val[i+1] = f_prev
 	while not success and i < max_iter:
@@ -100,14 +98,13 @@ def newton_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, sl
 		iter_num_to_obj_val[i+1]=f_next
 		cur_obj_val = abs(f_next - f_prev)
 		cur_param_val = np.linalg.norm(x_next - x_prev)
-		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val)
+		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val, "nt")
 		success = check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol) 
 		x_prev = x_next
 		f_prev = f_next
 		df_prev = df_next
 		x_vals.append(x_prev)
 		y_vals.append(f_prev)
-	print(f'Function {f.__name__} (Newton) final success status: {"Success" if success else "Fail"}')
 	return x_next, success, x_vals, iter_num_to_obj_val
 
 
@@ -120,7 +117,7 @@ def gd_dir(f, x0, step_size, obj_tol, param_tol, max_iter):
 	y_vals.append(f_prev)
 	i = 0
 	success = False
-	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
+	utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"), "gd")
 	iter_num_to_obj_val = OrderedDict()
 	iter_num_to_obj_val[i] = f_prev
 	while not success and i < max_iter:
@@ -131,14 +128,13 @@ def gd_dir(f, x0, step_size, obj_tol, param_tol, max_iter):
 		iter_num_to_obj_val[i]=f_next
 		cur_obj_val = abs(f_next - f_prev)
 		cur_param_val = np.linalg.norm(x_next - x_prev)
-		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val)
+		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val, "gd")
 		success = check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol)
 		x_prev = x_next
 		f_prev = f_next
 		df_prev = df_next
 		x_vals.append(x_prev)
 		y_vals.append(f_prev)
-	print(f'Function {f.__name__} (GD) final success status: {"Success" if success else "Fail"}')
 	return x_next, success, x_vals, iter_num_to_obj_val
 
 # def gradient_descent(f, x0, step_size, obj_tol, param_tol, max_iter):#ex1 line
