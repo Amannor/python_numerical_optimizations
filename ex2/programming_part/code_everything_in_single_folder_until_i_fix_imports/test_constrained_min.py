@@ -134,7 +134,6 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         eq_constraints_mat = np.ones(len(x0))
         eq_constraints_rhs = np.ones(1)
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, x0)
-        print(f'Finished {func.__name__} len(x_vals) {len(x_vals)} success {success} obj_val {obj_val} constraints_vals {constraints_vals}')
         utils.plot_for_qp(func, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_rhs)
 
         iter_num_to_obj_val = get_iter_num_to_obj_val_from_x_vals(func, x_vals)
@@ -155,11 +154,9 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         x0 = np.array([0.5,0.75])
         ineq_constraints = [lp_ineq1, lp_ineq2, lp_ineq3, lp_ineq4] 
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, None, None, x0)
-        print(f'x_vals {x_vals}')
         ineq_constraints_summary_str = [f'{ineq_constraints[i].__name__}: {constraints_vals[i]}' for i in range(len(ineq_constraints))]
         ineq_constraints_summary_str = " ".join(ineq_constraints_summary_str)
         
-        print(f'{func.__name__} {"" if func else "Not "} Succesful.\nFinal candidate: {x_vals[-1]} objective function value: {obj_val} inequality constraints values: {ineq_constraints_summary_str}')
         utils.plot_for_lp(func, x_vals, ineq_constraints)
         
         iter_num_to_obj_val = get_iter_num_to_obj_val_from_x_vals(func, x_vals)
