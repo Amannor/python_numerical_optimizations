@@ -13,7 +13,9 @@ from collections import OrderedDict
 
 
 ### ***Note that we need to calcauate the derivatives for minus lograithm of the minus of each constraint function (lecture 7+8 slide 61)*** ###
-def qp_ineq1(x, should_return_only_val=False):
+def qp_ineq1(x, should_return_only_val=False, return_str_rep=False):
+    if return_str_rep:
+        return r'$-x\leq0$'
     f_val = -x[0]
     if should_return_only_val:
         return f_val
@@ -23,7 +25,9 @@ def qp_ineq1(x, should_return_only_val=False):
     hessian[0][0] = 1 / (x[0] ** 2)
     return f_val, grad_vector_val, hessian
 
-def qp_ineq2(x, should_return_only_val=False):
+def qp_ineq2(x, should_return_only_val=False, return_str_rep=False):
+    if return_str_rep:
+        return r'$-y\leq0$'
     f_val = -x[1]
     if should_return_only_val:
         return f_val
@@ -33,7 +37,9 @@ def qp_ineq2(x, should_return_only_val=False):
     hessian[1][1] = 1 / (x[1] ** 2)
     return f_val, grad_vector_val, hessian
 
-def qp_ineq3(x, should_return_only_val=False):
+def qp_ineq3(x, should_return_only_val=False, return_str_rep=False):
+    if return_str_rep:
+        return r'$-z\leq0$'
     f_val = -x[2]
     if should_return_only_val:
         return f_val
