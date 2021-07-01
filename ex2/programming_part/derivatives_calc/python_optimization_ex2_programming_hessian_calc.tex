@@ -102,4 +102,131 @@ f(x) = 100(x_2-x_1^2)^2+(1-x_1)^2 = \\
 \end{bmatrix} \\
 \end{multline*} \\
 
+\underline{\textbf{Function qp (ex.2)}}:\\
+$f_0(x,y,z) = x^2+y^2+(z+1)^2$ \\
+$h_1(x,y,z) = x+y+z-1 \; (=0)$ \\
+$f_1(x,y,z) = -x $ \\
+$f_2(x,y,z) = -y $ \\
+$f_3(x,y,z) = -z $ \\
+
+\underline{Function for newton method}:\\
+
+From lecture 7+8, slide 61: \\
+Let $f^{new}(x,y,z) = tf_0(x,y,z)+\phi(x,y,z)$\\
+
+$f^{new}(x,y,z) = t(x^2+y^2+(z+1)^2)-log(x)-log(y)-log(z) = $\\ 
+
+$t(x^2+y^2+z^2+2z+1)-log(x)-log(y)-log(z)$\\
+
+\begin{multline*}
+\nabla f^{new}(x,y,z) =
+\begin{bmatrix}
+	2tx-\frac{1}{x} \\
+	2ty-\frac{1}{y} \\
+	2tz+2t-\frac{1}{z}
+\end{bmatrix} \\
+\nabla^2 f^{new}(x,y,z) =
+\begin{bmatrix} 
+	2t+\frac{1}{x^2} & 0                & 0                \\
+	0                & 2t+\frac{1}{y^2} & 0                \\
+	0                & 0                & 2t+\frac{1}{z^2} \\ 
+\end{bmatrix} \\
+\end{multline*} \\
+
+Let $\phi_i(x)=-log(-f_i(x))$ \\
+
+$\phi_1(x,y,z) = -log(x)$
+\begin{multline*}
+\nabla \phi_1(x,y,z) =
+\begin{bmatrix} -\frac{1}{x} \\ 0 \\ 0 \end{bmatrix} \\
+\end{multline*} \\
+$\nabla^2 \phi_1(x,y,z) = diag(\frac{1}{x^2},0,0)$ \\
+
+
+$\phi_2(x,y,z) = -log(y)$ \\
+\begin{multline*}
+\nabla \phi_2(x,y,z) =
+\begin{bmatrix} 0 \\ -\frac{1}{y} \\ 0 \end{bmatrix} \\
+\end{multline*}
+$\nabla^2 \phi_2(x,y,z) = diag(0,\frac{1}{y^2},0)$ \\
+
+
+$\phi_3(x,y,z) = -log(z)$ \\
+\begin{multline*}
+\nabla \phi_3(x,y,z) =
+\begin{bmatrix} 0 \\ 0 \\ -\frac{1}{z} \end{bmatrix} \\
+\end{multline*} \\
+$\nabla^2 \phi_3(x,y,z) = diag(0,0,\frac{1}{z^2})$ \\
+
+
+
+\underline{\textbf{Function lp (ex.2)}}:\\
+$f_0(x,y) = -x-y$ \\
+$f_1(x,y) = -x-y+1 $ \\
+$f_2(x,y) = y-1 $ \\
+$f_3(x,y) = x-2 $ \\
+$f_4(x,y) = -y $ \\
+
+\underline{Function for newton method}:\\
+
+From lecture 7+8, slide 61: \\
+Let $f^{new}(x,y) = tf_0(x,y)+\phi(x,y)$\\
+
+$f^{new}(x,y) = -tx-ty-log(x+y-1)-log(1-y)-log(2-x)-log(y)$\\ 
+
+\begin{multline*}
+\nabla f^{new}(x,y) =
+\begin{bmatrix}
+	-t -\frac{1}{x+y-1}+\frac{1}{2-x}             \\
+	-t -\frac{1}{x+y-1}+\frac{1}{1-y} -\frac{1}{y}
+\end{bmatrix} \\
+\nabla^2 f^{new}(x,y) =
+\begin{bmatrix} 
+    \frac{1}{(x+y-1)^2} + \frac{1}{(2-x)^2} &
+    \frac{1}{(x+y-1)^2}
+ \\
+	\frac{1}{(x+y-1)^2}                                 &
+	\frac{1}{(x+y-1)^2}+\frac{1}{(1-y)^2}+\frac{1}{y^2}
+ \\
+\end{bmatrix} \\
+\end{multline*} \\
+
+Let $\phi_i(x)=-log(-f_i(x))$ \\
+
+$\phi_1(x,y) = -log(x+y-1) $ \\
+\begin{multline*}
+\nabla \phi_1(x,y) =
+\begin{bmatrix}
+	-\frac{1}{x+y-1}  \\ -\frac{1}{x+y-1}
+\end{bmatrix} \\
+\nabla^2 \phi_1(x,y) =
+\begin{bmatrix} 
+    \frac{1}{(x+y-1)^2} & \frac{1}{(x+y-1)^2}
+ \\
+	\frac{1}{(x+y-1)^2} & \frac{1}{(x+y-1)^2}
+ \\
+\end{bmatrix} \\
+\end{multline*} \\
+
+$\phi_2(x,y) = -log(1-y) $ \\
+\begin{multline*}
+\nabla \phi_2(x,y) =
+\begin{bmatrix}	0   \\ \frac{1}{1-y} \end{bmatrix} \\
+\end{multline*} \\
+$\nabla^2 \phi_2(x,y) =diag(0, \frac{1}{(1-y)^2} )$ \\
+
+$\phi_3(x,y) = -log(2-x) $ \\
+\begin{multline*}
+\nabla \phi_3(x,y) =
+\begin{bmatrix}	\frac{1}{2-x}   \\ 0 \end{bmatrix} \\
+\end{multline*} \\
+$\nabla^2 \phi_3(x,y) =diag(\frac{1}{(2-x)^2}, 0)$ \\
+
+$\phi_4(x,y) = -log(y) $ \\
+\begin{multline*}
+\nabla \phi_4(x,y) =
+\begin{bmatrix}	0 \\ -\frac{1}{y} \end{bmatrix} \\
+\end{multline*} \\
+$\nabla^2 \phi_4(x,y) =diag(0, \frac{1}{y^2})$ \\
+
 \end{document}\\
