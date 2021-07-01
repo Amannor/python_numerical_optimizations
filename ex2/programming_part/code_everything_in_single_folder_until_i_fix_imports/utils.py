@@ -98,8 +98,12 @@ def plot_for_lp(f, x_vals, ineq_constraints):
                     extent=(x.min(),x.max(),y.min(),y.max()),origin="lower", cmap="Greys")
 
     plt.scatter([c[0] for c in x_vals], [c[1] for c in x_vals])
-    for i, x_val in enumerate(x_vals):
-        plt.annotate(f'(x{i})', (x_val[0], x_val[1]))
+    plt.plot([c[0] for c in x_vals], [c[1] for c in x_vals])
+    plt.annotate(f'(x0)', (x_vals[0][0], x_vals[0][1]))
+    # plt.annotate(f'(x{len(x_vals)-1})', (x_vals[-1][0], x_vals[-1][1]))
+
+    # for i, x_val in enumerate(x_vals):
+    #     plt.annotate(f'(x{i})', (x_val[0], x_val[1]))
 
     save_fig(f.__name__)
 
