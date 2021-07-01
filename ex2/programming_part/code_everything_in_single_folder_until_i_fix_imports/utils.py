@@ -152,6 +152,6 @@ def plot_iter_num_to_obj_val(f, iter_num_to_obj_val, dir_selection_method=None):
     save_fig(f'{f.__name__}{fig_name_dir_suffix}_iterations_to_obj_val.png')
 
 
-def report_iteration(iter_count, cur_location, cur_obj_val, cur_step_len, cur_obj_f_val_change, dir_method=None):
+def report_iteration(iter_count, cur_location, cur_obj_val, cur_step_len, cur_obj_f_val_change, dir_method=None, special_prefix=""):
     dir_method_suffix_str = f' ({dir_method})' if dir_method else ""
-    print(f'Iteration number: {iter_count} current location: {cur_location} current obj val: {cur_obj_val} current step length: {cur_step_len} current change in objective function value: {cur_obj_f_val_change}{dir_method_suffix_str}')
+    print(f'{special_prefix}Iteration number: {iter_count} current location: {cur_location} current obj val: {cur_obj_val} current step length: {cur_step_len} current change in objective function value: {cur_obj_f_val_change}{dir_method_suffix_str}')
