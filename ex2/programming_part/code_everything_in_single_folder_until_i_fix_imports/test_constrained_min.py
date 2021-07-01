@@ -44,7 +44,7 @@ def lp_ineq4_val_only(x):
 ### ***Note that we need to calcauate the composite function for newton we need to look at the negative of the logarithm of negtive f_i (lecture 7+8 slide 61)*** ###
 
 def qp_neg_log_neg_ineq1(x, should_return_only_val=False):
-    #Original f_0 = -x[0]
+    #Original f_1 = -x[0]
     f_val = -np.log(x[0])
     if should_return_only_val:
         return f_val, None, None
@@ -54,7 +54,7 @@ def qp_neg_log_neg_ineq1(x, should_return_only_val=False):
     return f_val, grad_vector_val, hessian
 
 def qp_neg_log_neg_ineq2(x, should_return_only_val=False):
-    #Original f_1 = -x[1]
+    #Original f_2 = -x[1]
     f_val = -np.log(x[1])
     if should_return_only_val:
         return f_val, None, None
@@ -64,7 +64,7 @@ def qp_neg_log_neg_ineq2(x, should_return_only_val=False):
     return f_val, grad_vector_val, hessian
 
 def qp_neg_log_neg_ineq3(x, should_return_only_val=False):
-    #Original f_2 = -x[2]
+    #Original f_3 = -x[2]
     f_val = -np.log(x[2])
     if should_return_only_val:
         return f_val, None, None
