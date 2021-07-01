@@ -60,7 +60,7 @@ def f_d_lin(x, should_calc_hessian=False):
         return f_val, grad_vector_val, None
 
 def f_qp(x, should_calc_hessian=False):
-    f_val = x[0]**+x[1]**2+(x[2]+1)**2
+    f_val = x[0]**2+x[1]**2+(x[2]+1)**2
     grad_vector_val = np.array([2*x[0], 2*x[1], 2*x[2]+2])
     if should_calc_hessian:
         hessian = 2*np.eye(len(x))
