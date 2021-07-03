@@ -36,6 +36,7 @@ def plot_for_qp(f, x_vals, ineq_constraints):
     color_dict = {'g': 'green', 'r': 'red', 'c': 'cyan', 'm': 'magenta', 'y': 'yellow', 'k': 'black', 'w': 'white', 'b': 'blue'} #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
     color_if_none_hold = list(color_dict.keys())[-1]
     color_if_all_hold = list(color_dict.keys())[-2]
+    available_colors_num = len(color_dict)-2
     ineq_to_color = {}
     for y_i in range(ylen-1):
         for x_i in range(xlen-1):
@@ -48,7 +49,7 @@ def plot_for_qp(f, x_vals, ineq_constraints):
             elif unique_color_per_inequality and len(ineq_indexes) > 0:
                 ineq_i = ineq_indexes[0]
                 ineq_str = ineq_constraints[ineq_i](None, return_str_rep=True)
-                cur_color = list(color_dict.keys())[ineq_i % len(color_dict)-2]
+                cur_color = list(color_dict.keys())[ineq_i % available_colors_num]
                 colors[x_i, y_i] = cur_color
                 
                 if not ineq_str in ineq_to_color:
@@ -59,11 +60,11 @@ def plot_for_qp(f, x_vals, ineq_constraints):
 
 
     if unique_color_per_inequality:
-        text2d = "Inequalities to colors mapping:"
+        text2d = "Ineqs to colors:"
         for ineq_str in sorted(ineq_to_color.keys()):
             text2d += f'\n{ineq_str}: {ineq_to_color[ineq_str]}'
-        ax.text2D(0.05, 0.95, text2d, transform=ax.transAxes)
-    
+        ax.text2D(1.05, 0.95, text2d, transform=ax.transAxes)
+
     ax.plot_surface(X, Y, Z, facecolors=colors, alpha=0.3)
     ax.scatter([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="k")
     ax.plot([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="k")
