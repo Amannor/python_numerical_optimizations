@@ -11,16 +11,23 @@ from collections import OrderedDict
 # import src.utils
 # import src.unconstrained_min
 
+GREATER_THAN_OR_EQAUL_SIGN = u'\u2265'
 
-def qp_ineq1_val_only(x):
+def qp_ineq1_val_only(x, return_str_rep=False):
+    if return_str_rep:
+        return  u'x{0}0'.format(GREATER_THAN_OR_EQAUL_SIGN)
     f_val = -x[0]
     return f_val
 
-def qp_ineq2_val_only(x):
+def qp_ineq2_val_only(x, return_str_rep=False):
+    if return_str_rep:
+        return  u'y{0}0'.format(GREATER_THAN_OR_EQAUL_SIGN)
     f_val = -x[1]
     return f_val
 
-def qp_ineq3_val_only(x):
+def qp_ineq3_val_only(x, return_str_rep=False):
+    if return_str_rep:
+        return  u'z{0}0'.format(GREATER_THAN_OR_EQAUL_SIGN)
     f_val = -x[2]
     return f_val
 
@@ -88,7 +95,7 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, x0)
         
         ineq_constraints_for_plot = [qp_ineq1_val_only, qp_ineq2_val_only, qp_ineq3_val_only]
-        utils.plot_for_qp(func, x_vals, ineq_constraints_for_plot, eq_constraints_mat, eq_constraints_rhs)
+        utils.plot_for_qp(func, x_vals, ineq_constraints_for_plot)
 
         iter_num_to_obj_val = get_iter_num_to_obj_val_from_x_vals(func, x_vals)
         utils.plot_iter_num_to_obj_val(func, iter_num_to_obj_val)

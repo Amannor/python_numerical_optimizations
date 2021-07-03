@@ -41,7 +41,6 @@ def newton_func_qp(x, t, should_calc_hessian=False):
         return f_val, grad_vector_val, None
 
 
-#This method is identical to the one in unconstraind_min.py but is here for (in)dependency reasons
 def get_step_len_by_first_wolfe(f, df_val_vector, xk, pk, t, alpha=DEFAULT_INIT_STEP_LEN, c1=DEFAULT_SLOPE_RATIO, back_track_factor=DEFAULT_BACKTRACK_FACTOR):
     #From lecture 3. slides 16-19: the loop stops iff 𝑓(𝑥_𝑘+𝛼*𝑝_𝑘)≤𝑓(𝑥_𝑘)+𝑐_1*𝛼∇𝑓(𝑥_𝑘).𝑇*𝑝_𝑘
     invalid_input = math.isnan(f(xk+alpha*pk, t)[0]) or math.isnan(f(xk, t)[0])
@@ -68,8 +67,6 @@ def newton_method(func, x, n, eq_constraints_mat, epsilon, max_iter, t):
     j=0
     x_vals = []
     f_prev = func(x, t)[0]
-    report_prefix = "Newton method inside log-barrier "
-    utils.report_iteration(j, x, f_prev, float("NaN"), float("NaN"), special_prefix=report_prefix)
 
     while (not should_stop and j<max_iter):
         j+=1
@@ -97,17 +94,29 @@ def newton_method(func, x, n, eq_constraints_mat, epsilon, max_iter, t):
             f_next = func(x, t)[0]
             cur_param_val_change = np.linalg.norm(x - x_prev)
             cur_obj_val_change = abs(f_next - f_prev)
-            utils.report_iteration(j, x, f_next, cur_param_val_change, cur_obj_val_change, special_prefix=report_prefix)
             f_prev = func(x_prev, t)[0]
             should_stop = should_stop or check_converge(cur_param_val_change, cur_obj_val_change)
 
     return x_vals
 
+def report_all_itenration_in_hindsight(func, x_vals):
+    i=0
+    x_prev = x_vals[0]
+    f_prev = func(x_prev)[0]
+
+    utils.report_iteration(i, x_prev, f_prev, float("NaN"), float("NaN"))
+    for i in range(1,len(x_vals)):
+        cur_x = x_vals[i]
+        cur_f = func(cur_x)[0]
+        cur_param_val_change = np.linalg.norm(cur_x - x_prev)
+        cur_obj_val_change = abs(cur_f - f_prev)
+        utils.report_iteration(i, cur_x, cur_f, cur_param_val_change, cur_obj_val_change)
+        x_prev, f_prev = cur_x, cur_f
+
 def barrier_method(func, ineq_constraints, eq_constraints_mat, x0, m, t = DEFAULT_T, mu = DEFAULT_MU, epsilon = DEFAULT_EPSILON, max_iter = MAX_ITER_NUM):
     success = False
     i=0
     x_vals = [x0]
-    # x=x0
 
     while (not success and i<max_iter):
         x = x_vals[-1]
@@ -121,7 +130,8 @@ def barrier_method(func, ineq_constraints, eq_constraints_mat, x0, m, t = DEFAUL
             t = t * mu
             i=i+1
 
-    return x_vals, success 
+    report_all_itenration_in_hindsight(func, x_vals)
+    return x_vals, success
 
 def interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, x0):
     '''

@@ -16,7 +16,9 @@ def get_indexes_of_inequalities_hold(point ,ineq_constraints):
             res.append(i)
     return res
 
-def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_rhs):
+def plot_for_qp(f, x_vals, ineq_constraints):
+
+    unique_color_per_inequality = False
     #From: https://matplotlib.org/2.0.2/mpl_toolkits/mplot3d/tutorial.html
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -31,10 +33,10 @@ def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_
     X, Y = np.meshgrid(X_range, Y_range)
     Z = qp_equality_func_for_xy(X,Y)
     colors = np.zeros(X.shape, dtype=str)
-    color_dict = {'b': 'blue', 'g': 'green', 'r': 'red', 'c': 'cyan', 'm': 'magenta', 'w': 'white', 'y': 'yellow', 'k': 'black'} #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
-    color_if_none_hold = 'b'
-    color_if_all_hold ='w'
-    # ineq_to_color = {} #Uncomment to color differnt inequilities regions in distinct colors
+    color_dict = {'g': 'green', 'r': 'red', 'c': 'cyan', 'm': 'magenta', 'y': 'yellow', 'k': 'black', 'w': 'white', 'b': 'blue'} #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
+    color_if_none_hold = list(color_dict.keys())[-1]
+    color_if_all_hold = list(color_dict.keys())[-2]
+    ineq_to_color = {}
     for y_i in range(ylen-1):
         for x_i in range(xlen-1):
             x_val, y_val = X_range[x_i], Y_range[y_i]
@@ -42,29 +44,30 @@ def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_
             ineq_indexes = get_indexes_of_inequalities_hold(point, ineq_constraints)
             if len(ineq_indexes) == len(ineq_constraints):
                 colors[x_i, y_i] = color_if_all_hold
+
+            elif unique_color_per_inequality and len(ineq_indexes) > 0:
+                ineq_i = ineq_indexes[0]
+                ineq_str = ineq_constraints[ineq_i](None, return_str_rep=True)
+                cur_color = list(color_dict.keys())[ineq_i % len(color_dict)-2]
+                colors[x_i, y_i] = cur_color
+                
+                if not ineq_str in ineq_to_color:
+                    ineq_to_color[ineq_str] = color_dict[cur_color]
+
             else:
                 colors[x_i, y_i] = color_if_none_hold
 
-            #Uncomment to color differnt inequilities regions in distinct colors
-            # elif len(ineq_indexes)>0:
-            #     ineq_i = ineq_indexes[0]
-            #     ineq_str = ineq_constraints[ineq_i](None, return_str_rep=True) 
-            #     cur_color = list(color_dict.keys())[ineq_i % len(color_dict)-1]
-            #     # colors[x_i, y_i] = cur_color
-                
-            #     if not ineq_str in ineq_to_color:
-            #         ineq_to_color[ineq_str] = color_dict[cur_color]
 
-    #Uncomment to color differnt inequilities regions in distinct colors
-    # text2d = "Ineqaulities to colors mapping:"
-    # for ineq_str in sorted(ineq_to_color.keys()):
-    #     text2d+=f'\n{ineq_str}: {ineq_to_color[ineq_str]}'
-    # ax.text2D(0.05, 0.95, text2d, transform=ax.transAxes)
+    if unique_color_per_inequality:
+        text2d = "Inequalities to colors mapping:"
+        for ineq_str in sorted(ineq_to_color.keys()):
+            text2d += f'\n{ineq_str}: {ineq_to_color[ineq_str]}'
+        ax.text2D(0.05, 0.95, text2d, transform=ax.transAxes)
     
     ax.plot_surface(X, Y, Z, facecolors=colors, alpha=0.3)
     ax.scatter([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="k")
     ax.plot([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="k")
-    ax.set_title(f'Equality constraint (x+y+z=1) and feasible region (in {color_dict[color_if_all_hold]}) {f.__name__}')
+    ax.set_title(f'Equality constraint (x+y+z=1) plain ({color_dict[color_if_none_hold]})\nand feasible region ({color_dict[color_if_all_hold]}) {f.__name__}')
     ax.set_xlabel('X axis')
     ax.set_ylabel('Y axis')
     ax.set_zlabel('Z axis')
@@ -79,9 +82,9 @@ def plot_for_lp(f, x_vals, ineq_constraints):
     f_2 = lambda x,y: ineq_constraints[1](np.array([x,y]))
     f_3 = lambda x,y: ineq_constraints[2](np.array([x,y]))
     f_4 = lambda x,y: ineq_constraints[3](np.array([x,y]))
-    
-    x = np.linspace(-1, 3, 500)
-    y = np.linspace(-1, 3, 500)
+    min_plot_val, max_plot_val = -0.2, 2.2
+    x = np.linspace(min_plot_val, max_plot_val, 500)
+    y = np.linspace(min_plot_val, max_plot_val, 500)
     X, Y = np.meshgrid(x, y)
 
 
@@ -98,7 +101,10 @@ def plot_for_lp(f, x_vals, ineq_constraints):
 
     plt.scatter([c[0] for c in x_vals], [c[1] for c in x_vals])
     plt.plot([c[0] for c in x_vals], [c[1] for c in x_vals])
-    plt.annotate(f'(x0)', (x_vals[0][0], x_vals[0][1]))
+    last_point_str = f'({round(x_vals[-1][0], 2)},{round(x_vals[-1][1], 2)})'
+    plt.annotate(last_point_str, (x_vals[-1][0], x_vals[-1][1]))
+    plt.xlim(min_plot_val, max_plot_val)
+    plt.ylim(min_plot_val, max_plot_val)
 
     save_fig(f.__name__)
 
