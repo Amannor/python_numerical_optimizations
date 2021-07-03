@@ -47,7 +47,7 @@ class TestStringMethods(unittest.TestCase):
         for quad_example in [examples.f_b_i, examples.f_b_ii, examples.f_b_iii]:
             for dir_selection_method in DIR_SELECTION_METHODS:
                 print(f'Testing quad function: {quad_example.__name__} dir method: {dir_selection_method}')
-                line_search_res = unconstrained_min.line_search(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter, dir_selection_method, )
+                line_search_res = unconstrained_min.line_search(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter, dir_selection_method)
                 utils.plot_contours_and_paths(quad_example, line_search_res[2], dir_selection_method)
                 utils.plot_iter_num_to_obj_val(quad_example, line_search_res[3], dir_selection_method)
                 self.assertTrue(line_search_res[1])
