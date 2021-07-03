@@ -104,6 +104,9 @@ def plot_for_lp(f, x_vals, ineq_constraints):
     plt.plot([c[0] for c in x_vals], [c[1] for c in x_vals])
     last_point_str = f'({round(x_vals[-1][0], 2)},{round(x_vals[-1][1], 2)})'
     plt.annotate(last_point_str, (x_vals[-1][0], x_vals[-1][1]))
+    plt.title(f'Function {f.__name__}: Feasible region and points visited')
+    plt.xlabel("X axis")
+    plt.ylabel("Y axis")
     plt.xlim(min_plot_val, max_plot_val)
     plt.ylim(min_plot_val, max_plot_val)
 
