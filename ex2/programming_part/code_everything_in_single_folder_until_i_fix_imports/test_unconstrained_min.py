@@ -48,9 +48,12 @@ class TestStringMethods(unittest.TestCase):
             for dir_selection_method in DIR_SELECTION_METHODS:
                 print(f'Testing quad function: {quad_example.__name__} dir method: {dir_selection_method}')
                 line_search_res = unconstrained_min.line_search(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter, dir_selection_method)
+                x_last = line_search_res[0]
+                success = line_search_res[1]
+                print(f'Quad function {quad_example.__name__} (dir method: {dir_selection_method}) result: {"Success" if success else "Failure"}. Last point {x_last}')
                 utils.plot_contours_and_paths(quad_example, line_search_res[2], dir_selection_method)
                 utils.plot_iter_num_to_obj_val(quad_example, line_search_res[3], dir_selection_method)
-                self.assertTrue(line_search_res[1])
+                self.assertTrue(success)
 
     def test_rosenbrock_min(self):
         x0 = np.array([2,2])
@@ -62,9 +65,12 @@ class TestStringMethods(unittest.TestCase):
             print(f'Testing function: Rosenbrock dir method: {dir_selection_method}')
             line_search_res = unconstrained_min.line_search(examples.f_c_rosenbrock, x0, step_size, obj_tolerance,
                                                                    step_tolerance, max_iter, dir_selection_method)
+            x_last = line_search_res[0]
+            success = line_search_res[1]
+            print(f'Rosenbrock function (dir method: {dir_selection_method}) result: {"Success" if success else "Failure"}. Last point {x_last}')
             utils.plot_contours_and_paths(examples.f_c_rosenbrock, line_search_res[2], dir_selection_method)
             utils.plot_iter_num_to_obj_val(examples.f_c_rosenbrock, line_search_res[3], dir_selection_method)
-            self.assertTrue(line_search_res[1])
+            self.assertTrue(success)
 
 if __name__ == '__main__':
     unittest.main()
