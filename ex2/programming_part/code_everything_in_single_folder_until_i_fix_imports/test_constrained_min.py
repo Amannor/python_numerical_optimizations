@@ -93,7 +93,7 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         eq_constraints_mat = np.ones(len(x0))
         eq_constraints_rhs = np.ones(1)
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, x0)
-        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}. Last point {x_vals[-1]}')
+        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}')
         
         ineq_constraints_for_plot = [qp_ineq1_val_only, qp_ineq2_val_only, qp_ineq3_val_only]
         utils.plot_for_qp(func, x_vals, ineq_constraints_for_plot)
@@ -115,7 +115,7 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         x0 = np.array([0.5,0.75])
         ineq_constraints = [lp_ineq1_val_only, lp_ineq2_val_only, lp_ineq3_val_only, lp_ineq4_val_only]
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, None, None, x0)
-        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}. Last point {x_vals[-1]}')
+        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}')
         
         ineq_constraints_for_plot = [lp_ineq1_val_only, lp_ineq2_val_only, lp_ineq3_val_only, lp_ineq4_val_only]
         utils.plot_for_lp(func, x_vals, ineq_constraints_for_plot)
