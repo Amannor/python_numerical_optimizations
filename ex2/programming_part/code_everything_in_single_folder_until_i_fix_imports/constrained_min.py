@@ -47,7 +47,7 @@ def get_step_len_by_first_wolfe(f, df_val_vector, xk, pk, t, alpha=DEFAULT_INIT_
     '''
     TODO - since it's possible that we'll send f an invalid input (e.g. non-positive number for np.log() function - need to add a check for that
     Something like:
-    import math 
+    import math
     invalid_input = math.isnan(f(xk+alpha*pk, t)[0]) or math.isnan(f(xk, t)[0])
     while invalid_input or not f(xk+alpha*pk, t)[0] <= f(xk, t)[0]+c1*alpha*df_val_vector.T@pk:
         alpha*=back_track_factor
