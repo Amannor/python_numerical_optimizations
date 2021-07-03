@@ -69,7 +69,7 @@ def bfgs_dir(f, x0, step_size, obj_tol, param_tol, max_iter, init_step_len, slop
 		utils.report_iteration(i, x_next, f_next, cur_param_val, cur_obj_val, "bfgs")
 		success = success or check_converge(cur_param_val, param_tol, cur_obj_val, obj_tol)
 
-		B_prev = get_next_B_matrix(B_prev, x_prev, x_next, df_prev, df_next) #def get_next_B_matrix(B_k, x_k, x_k_plus_1, df_k, df_k_plus_1):
+		B_prev = get_next_B_matrix(B_prev, x_prev, x_next, df_prev, df_next)
 		x_prev = x_next
 		f_prev = f_next
 		df_prev = df_next

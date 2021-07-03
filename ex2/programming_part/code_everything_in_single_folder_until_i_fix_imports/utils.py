@@ -1,8 +1,5 @@
-import matplotlib
 import numpy as np
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-from matplotlib import patheffects
 import os
 
 MIN_AXIS_REACH = 1.5
@@ -27,26 +24,26 @@ def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_
     qp_equality_func_for_xy = lambda x,y: 1-x-y
 
     #Based on example from https://matplotlib.org/2.0.2/mpl_examples/mplot3d/surface3d_demo.py
-    X_range = np.arange(-5, 5, 0.25)
+    X_range = np.arange(-0.5, 1.25, 0.025)
     xlen = len(X_range)
-    Y_range = np.arange(-5, 5, 0.25)
+    Y_range = np.arange(-0.5, 1.25, 0.025)
     ylen = len(Y_range)
     X, Y = np.meshgrid(X_range, Y_range)
     Z = qp_equality_func_for_xy(X,Y)
     colors = np.zeros(X.shape, dtype=str)
-    color_dict = {'b': 'blue', 'g': 'green', 'r': 'red', 'c': 'cyan', 'm': 'magenta','y': 'yellow', 'k': 'black'} #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
-    white_id = 'w'
-    color_if_all_hold = list(color_dict.keys())[-1]
-    ineq_to_color = {}
-    for y_i in range(ylen):
-        for x_i in range(xlen):
+    color_dict = {'b': 'blue', 'g': 'green', 'r': 'red', 'c': 'cyan', 'm': 'magenta', 'w': 'white', 'y': 'yellow', 'k': 'black'} #For full list see https://matplotlib.org/2.0.2/api/colors_api.html
+    color_if_none_hold = 'b'
+    color_if_all_hold ='w'
+    # ineq_to_color = {} #Uncomment to color differnt inequilities regions in distinct colors
+    for y_i in range(ylen-1):
+        for x_i in range(xlen-1):
             x_val, y_val = X_range[x_i], Y_range[y_i]
             point = np.array([x_val, y_val, qp_equality_func_for_xy(x_val, y_val)])
             ineq_indexes = get_indexes_of_inequalities_hold(point, ineq_constraints)
             if len(ineq_indexes) == len(ineq_constraints):
                 colors[x_i, y_i] = color_if_all_hold
             else:
-                colors[x_i, y_i] = white_id
+                colors[x_i, y_i] = color_if_none_hold
 
             #Uncomment to color differnt inequilities regions in distinct colors
             # elif len(ineq_indexes)>0:
@@ -64,13 +61,15 @@ def plot_for_qp(f, x_vals, ineq_constraints, eq_constraints_mat, eq_constraints_
     #     text2d+=f'\n{ineq_str}: {ineq_to_color[ineq_str]}'
     # ax.text2D(0.05, 0.95, text2d, transform=ax.transAxes)
     
-    ax.plot_surface(X, Y, Z, facecolors=colors)
-    ax.scatter([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="g")
-    ax.plot([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="g")
+    ax.plot_surface(X, Y, Z, facecolors=colors, alpha=0.3)
+    ax.scatter([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="k")
+    ax.plot([c[0] for c in x_vals], [c[1] for c in x_vals], [c[2] for c in x_vals], c="k")
     ax.set_title(f'Equality constraint (x+y+z=1) and feasible region (in {color_dict[color_if_all_hold]}) {f.__name__}')
     ax.set_xlabel('X axis')
     ax.set_ylabel('Y axis')
     ax.set_zlabel('Z axis')
+    last_point_str = f'({round(x_vals[-1][0],2)},{round(x_vals[-1][1],2)},{round(x_vals[-1][2],2)})'
+    ax.text(x_vals[-1][0], x_vals[-1][1], x_vals[-1][2], last_point_str, size=10, zorder=1, color='k')
     save_fig(f.__name__)
 
 def plot_for_lp(f, x_vals, ineq_constraints):
@@ -100,10 +99,6 @@ def plot_for_lp(f, x_vals, ineq_constraints):
     plt.scatter([c[0] for c in x_vals], [c[1] for c in x_vals])
     plt.plot([c[0] for c in x_vals], [c[1] for c in x_vals])
     plt.annotate(f'(x0)', (x_vals[0][0], x_vals[0][1]))
-    # plt.annotate(f'(x{len(x_vals)-1})', (x_vals[-1][0], x_vals[-1][1]))
-
-    # for i, x_val in enumerate(x_vals):
-    #     plt.annotate(f'(x{i})', (x_val[0], x_val[1]))
 
     save_fig(f.__name__)
 
