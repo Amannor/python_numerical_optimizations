@@ -1,5 +1,6 @@
 import numpy as np
 import utils
+import math
 
 #Given consts
 DEFAULT_T = 1
@@ -43,18 +44,10 @@ def newton_func_qp(x, t, should_calc_hessian=False):
 #This method is identical to the one in unconstraind_min.py but is here for (in)dependency reasons
 def get_step_len_by_first_wolfe(f, df_val_vector, xk, pk, t, alpha=DEFAULT_INIT_STEP_LEN, c1=DEFAULT_SLOPE_RATIO, back_track_factor=DEFAULT_BACKTRACK_FACTOR):
     #From lecture 3. slides 16-19: the loop stops iff 𝑓(𝑥_𝑘+𝛼*𝑝_𝑘)≤𝑓(𝑥_𝑘)+𝑐_1*𝛼∇𝑓(𝑥_𝑘).𝑇*𝑝_𝑘
-    '''
-    TODO - since it's possible that we'll send f an invalid input (e.g. non-positive number for np.log() function - need to add a check for that
-    Something like:
-    import math
     invalid_input = math.isnan(f(xk+alpha*pk, t)[0]) or math.isnan(f(xk, t)[0])
     while invalid_input or not f(xk+alpha*pk, t)[0] <= f(xk, t)[0]+c1*alpha*df_val_vector.T@pk:
-        alpha*=back_track_factor
+        alpha *= back_track_factor
         invalid_input = math.isnan(f(xk+alpha*pk, t)[0]) or math.isnan(f(xk, t)[0])
-    return alpha
-    '''
-    while not f(xk+alpha*pk, t)[0] <= f(xk, t)[0]+c1*alpha*df_val_vector.T@pk:
-        alpha*=back_track_factor
     return alpha
 
 def calc_newton_decrment(pnt, dfdfx):
