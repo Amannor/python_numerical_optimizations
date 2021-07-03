@@ -131,9 +131,10 @@ def interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, 
     eq_constraints_rhs: The right hand side vector
     x0: Where the outer iterations start at
     '''
-    
-    #TODO add code that throws "unsopported infeasible starting point" exception in case x0 isn't feasible (i.e eq_constraints_mat.dot(x0) != eq_constraints_rhs)
-    
+
+    if not eq_constraints_mat is None and not eq_constraints_rhs is None and not x0@eq_constraints_mat == eq_constraints_rhs:
+        raise Exception("Infeasible starting point not supported")
+
     m = len(ineq_constraints)
     x_vals, success = barrier_method(func, ineq_constraints, eq_constraints_mat, x0, m)
     last_point = x_vals[-1]
