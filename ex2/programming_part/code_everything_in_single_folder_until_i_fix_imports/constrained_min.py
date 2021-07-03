@@ -139,6 +139,6 @@ def interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, 
     x_vals, success = barrier_method(func, ineq_constraints, eq_constraints_mat, x0, m)
     last_point = x_vals[-1]
     obj_val = func(last_point)[0]
-    constraints_vals = [ineq_func(last_point)[0] for ineq_func in ineq_constraints]
+    constraints_vals = [ineq_func(last_point) for ineq_func in ineq_constraints]
 
     return x_vals, success, obj_val, constraints_vals
