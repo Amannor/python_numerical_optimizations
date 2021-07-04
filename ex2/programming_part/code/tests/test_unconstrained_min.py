@@ -1,13 +1,13 @@
 import unittest
 import numpy as np
 import examples
-from .. src import unconstrained_min
-# from .src import unconstrained_min
-# from ..src import utils
-# from .. import src.unconstrained_min
-# from . import src
-# import src.utils
-# import src.unconstrained_min
+
+#These lines from: https://stackoverflow.com/a/10272919
+import sys
+import os
+sys.path.append(os.path.abspath('src')) #Note: this means this file should run from the '.../ex2/programming_part/code' directory
+import unconstrained_min
+import utils
 
 
 # DIR_SELECTION_METHODS = ['gd','nt', 'bfgs']
