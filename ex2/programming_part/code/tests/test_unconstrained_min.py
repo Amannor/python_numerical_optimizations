@@ -1,16 +1,17 @@
 import unittest
 import numpy as np
 import examples
-# from ..src import unconstrained_min
+from .. src import unconstrained_min
+# from .src import unconstrained_min
 # from ..src import utils
 # from .. import src.unconstrained_min
-from . import src
+# from . import src
 # import src.utils
 # import src.unconstrained_min
 
 
-# DIR_SELECTION_METHODS = ['nt', 'bfgs']
-DIR_SELECTION_METHODS = ['nt']
+# DIR_SELECTION_METHODS = ['gd','nt', 'bfgs']
+DIR_SELECTION_METHODS = ['nt', 'bfgs']
 
 class TestStringMethods(unittest.TestCase):
 
@@ -45,10 +46,12 @@ class TestStringMethods(unittest.TestCase):
         for quad_example in [examples.f_b_i, examples.f_b_ii, examples.f_b_iii]:
             for dir_selection_method in DIR_SELECTION_METHODS:
                 print(f'Testing quad function: {quad_example.__name__} dir method: {dir_selection_method}')
-                grad_desc_res = src.unconstrained_min.line_search(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter, dir_selection_method, )
-                src.utils.plot_contours_and_paths(quad_example, grad_desc_res[2], dir_selection_method)
-                src.utils.plot_iter_num_to_obj_val(quad_example, grad_desc_res[3], dir_selection_method)
-                self.assertTrue(grad_desc_res[1])
+                line_search_res = unconstrained_min.line_search(quad_example, x0, step_size, obj_tolerance, step_tolerance, max_iter, dir_selection_method)
+                success = line_search_res[1]
+                print(f'Quad function {quad_example.__name__} (dir method: {dir_selection_method}) result: {"Success" if success else "Failure"}')
+                utils.plot_contours_and_paths(quad_example, line_search_res[2], dir_selection_method)
+                utils.plot_iter_num_to_obj_val(quad_example, line_search_res[3], dir_selection_method)
+                self.assertTrue(success)
 
     def test_rosenbrock_min(self):
         x0 = np.array([2,2])
@@ -58,26 +61,13 @@ class TestStringMethods(unittest.TestCase):
         obj_tolerance = 10**-7
         for dir_selection_method in DIR_SELECTION_METHODS:
             print(f'Testing function: Rosenbrock dir method: {dir_selection_method}')
-            grad_desc_res = src.unconstrained_min.line_search(examples.f_c_rosenbrock, x0, step_size, obj_tolerance,
+            line_search_res = unconstrained_min.line_search(examples.f_c_rosenbrock, x0, step_size, obj_tolerance,
                                                                    step_tolerance, max_iter, dir_selection_method)
-            src.utils.plot_contours_and_paths(examples.f_c_rosenbrock, grad_desc_res[2], dir_selection_method)
-            src.utils.plot_iter_num_to_obj_val(examples.f_c_rosenbrock, grad_desc_res[3], dir_selection_method)
-            self.assertTrue(grad_desc_res[1])
-
-    ### Skipped in ex2 ###
-    # def test_lin_min(self):
-    #     x0 = np.array([1,1])
-    #     step_size = 0.1
-    #     max_iter = 100
-    #     step_tolerance = 10**-8
-    #     obj_tolerance = 10**-12
-    #     print(f'Testing function: linear')
-    #     grad_desc_res = src.unconstrained_min.line_search(examples.f_d_lin, x0, step_size, obj_tolerance,
-    #                                                            step_tolerance, max_iter)
-    #     src.utils.plot_contours_and_paths(examples.f_d_lin, grad_desc_res[2])
-    #     self.assertFalse(grad_desc_res[1])
-
-
+            success = line_search_res[1]
+            print(f'Rosenbrock function (dir method: {dir_selection_method}) result: {"Success" if success else "Failure"}')
+            utils.plot_contours_and_paths(examples.f_c_rosenbrock, line_search_res[2], dir_selection_method)
+            utils.plot_iter_num_to_obj_val(examples.f_c_rosenbrock, line_search_res[3], dir_selection_method)
+            self.assertTrue(success)
 
 if __name__ == '__main__':
     unittest.main()
