@@ -11,37 +11,37 @@ import utils
 
 GREATER_THAN_OR_EQAUL_SIGN = u'\u2265'
 
-def qp_ineq1_val_only(x, return_str_rep=False):
+def qp_ineq1(x, return_str_rep=False):
     if return_str_rep:
         return  u'x{0}0'.format(GREATER_THAN_OR_EQAUL_SIGN)
     f_val = -x[0]
     return f_val
 
-def qp_ineq2_val_only(x, return_str_rep=False):
+def qp_ineq2(x, return_str_rep=False):
     if return_str_rep:
         return  u'y{0}0'.format(GREATER_THAN_OR_EQAUL_SIGN)
     f_val = -x[1]
     return f_val
 
-def qp_ineq3_val_only(x, return_str_rep=False):
+def qp_ineq3(x, return_str_rep=False):
     if return_str_rep:
         return  u'z{0}0'.format(GREATER_THAN_OR_EQAUL_SIGN)
     f_val = -x[2]
     return f_val
 
-def lp_ineq1_val_only(x):
+def lp_ineq1(x):
     f_val = -x[0]-x[1]+1
     return f_val
 
-def lp_ineq2_val_only(x):
+def lp_ineq2(x):
     f_val = x[1]-1
     return f_val
 
-def lp_ineq3_val_only(x):
+def lp_ineq3(x):
     f_val = x[0]-2
     return f_val
 
-def lp_ineq4_val_only(x):
+def lp_ineq4(x):
     f_val = -x[1]
     return f_val
 
@@ -87,13 +87,15 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         '''
         func = examples.f_qp
         x0 = np.array([0.1,0.2,0.7])
-        ineq_constraints = [qp_ineq1_val_only, qp_ineq2_val_only, qp_ineq3_val_only]
+        ineq_constraints = [qp_ineq1, qp_ineq2, qp_ineq3]
         eq_constraints_mat = np.ones(len(x0))
         eq_constraints_rhs = np.ones(1)
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, eq_constraints_mat, eq_constraints_rhs, x0)
-        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}')
-        
-        ineq_constraints_for_plot = [qp_ineq1_val_only, qp_ineq2_val_only, qp_ineq3_val_only]
+        ineq_constraints_summary_str = [f'{ineq_constraints[i].__name__}: {constraints_vals[i]}' for i in range(len(ineq_constraints))]
+        ineq_constraints_summary_str = " ".join(ineq_constraints_summary_str)
+        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}.\nFinal candidate: {x_vals[-1]} objective function value: {obj_val} inequality constraints values: {ineq_constraints_summary_str}')
+
+        ineq_constraints_for_plot = [qp_ineq1, qp_ineq2, qp_ineq3]
         utils.plot_for_qp(func, x_vals, ineq_constraints_for_plot)
 
         iter_num_to_obj_val = get_iter_num_to_obj_val_from_x_vals(func, x_vals)
@@ -111,11 +113,14 @@ class TestConstrainedMinimizaton(unittest.TestCase):
         '''
         func = examples.f_lp
         x0 = np.array([0.5,0.75])
-        ineq_constraints = [lp_ineq1_val_only, lp_ineq2_val_only, lp_ineq3_val_only, lp_ineq4_val_only]
+        ineq_constraints = [lp_ineq1, lp_ineq2, lp_ineq3, lp_ineq4]
         x_vals, success, obj_val, constraints_vals = constrained_min.interior_pt(func, ineq_constraints, None, None, x0)
-        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}')
-        
-        ineq_constraints_for_plot = [lp_ineq1_val_only, lp_ineq2_val_only, lp_ineq3_val_only, lp_ineq4_val_only]
+        ineq_constraints_summary_str = [f'{ineq_constraints[i].__name__}: {constraints_vals[i]}' for i in
+                                        range(len(ineq_constraints))]
+        ineq_constraints_summary_str = " ".join(ineq_constraints_summary_str)
+        print(f'Function {func.__name__} result: {"Success" if success else "Failure"}.\nFinal candidate: {x_vals[-1]} objective function value: {obj_val} inequality constraints values: {ineq_constraints_summary_str}')
+
+        ineq_constraints_for_plot = [lp_ineq1, lp_ineq2, lp_ineq3, lp_ineq4]
         utils.plot_for_lp(func, x_vals, ineq_constraints_for_plot)
         
         iter_num_to_obj_val = get_iter_num_to_obj_val_from_x_vals(func, x_vals)

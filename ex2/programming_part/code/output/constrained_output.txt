@@ -18,7 +18,8 @@ Iteration number: 16 current location: [1.99900883 0.99898128] current obj val: 
 Iteration number: 17 current location: [1.99936217 0.99935571] current obj val: -2.998717880003827 current step length: 0.0005148241833931451 current change in objective function value: 0.000727765819837245
 Iteration number: 18 current location: [1.9994994  0.99949601] current obj val: -2.9989954028389465 current step length: 0.00019625029949957515 current change in objective function value: 0.00027752283511928155
 Iteration number: 19 current location: [1.99990051 0.9999033 ] current obj val: -2.9998038114581878 current step length: 0.0005716479350954364 current change in objective function value: 0.0008084086192412521
-Function f_lp result: Success
+Function f_lp result: Success.
+Final candidate: [1.99990051 0.9999033 ] objective function value: -2.9998038114581878 inequality constraints values: lp_ineq1: -1.9998038114581878 lp_ineq2: -9.669746198892604e-05 lp_ineq3: -9.949107982354377e-05 lp_ineq4: -0.9999033025380111
 Iteration number: 0 current location: [0.1 0.2 0.7] current obj val: 2.9399999999999995 current step length: nan current change in objective function value: nan
 Iteration number: 1 current location: [0.21066667 0.43466667 0.35466667] current obj val: 2.0684373333333332 current step length: 0.4319382671941289 current change in objective function value: 0.8715626666666663
 Iteration number: 2 current location: [0.34377617 0.45451637 0.20170746] current obj val: 1.7688679982885478 current step length: 0.20373677108685667 current change in objective function value: 0.29956933504478545
@@ -2922,4 +2923,5 @@ Iteration number: 2899 current location: [4.99963938e-01 4.99900636e-01 1.354260
 Iteration number: 2900 current location: [4.99913308e-01 4.99951282e-01 1.35410689e-04] current obj val: 1.500135438914249 current step length: 7.161281914119784e-05 current change in objective function value: 1.667675397776236e-08
 Iteration number: 2901 current location: [4.99943692e-01 4.99920912e-01 1.35395310e-04] current obj val: 1.5001354230669308 current step length: 4.2959576023053684e-05 current change in objective function value: 1.5847318124428966e-08
 Iteration number: 2902 current location: [4.99852617e-01 5.00012065e-01 1.35318454e-04] current obj val: 1.5001353586324684 current step length: 0.00012885441294046939 current change in objective function value: 6.443446243231676e-08
-Function f_qp result: Success
+Function f_qp result: Success.
+Final candidate: [4.99852617e-01 5.00012065e-01 1.35318454e-04] objective function value: 1.5001353586324684 inequality constraints values: qp_ineq1: -0.49985261700003797 qp_ineq2: -0.5000120645458818 qp_ineq3: -0.00013531845408127767
